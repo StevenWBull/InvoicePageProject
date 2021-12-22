@@ -1,22 +1,21 @@
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import SideNav from '../SideNav/SideNav';
+import InvoicePage from '../../routes/InvoicePage/InvoicePage';
+import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <SideNav />
+      <main id='middle'>
+        <Routes>
+          <Route exact path={'/'} component={InvoicePage} />
+          <Route path={'*'} component={NotFoundPage} />
+        </Routes>
+      </main>
+    </>
   );
 }
 
