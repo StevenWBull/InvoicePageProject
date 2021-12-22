@@ -1,0 +1,73 @@
+.sidenav-section {
+    position: fixed;
+    background-color:rgb(37, 41, 69);
+    height: 100vh;
+    width:8%;
+    border-radius: 0px 25px 25px 0px;
+    z-index: -5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top-sidenav-container, .bottom-sidenav-container {
+    width: 100%;
+}
+
+.top-sidenav-container {
+    display: flex;
+    background-color: rgb(124, 93, 250);
+    height:150px;
+    border-radius: 0 25px 25px 0;
+}
+
+.bottom-sidenav-container {
+    height:260px;
+}
+
+.bottom-sidenav-container > div {
+    height:130px;
+    width:100%;
+}
+
+.avatar-container, .dark-light-toggle-container {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+
+}
+
+.avatar-container {
+    border-top: 1px solid lightgray;
+}
+
+.avatar-container > img {
+    border-radius: 50%;
+}
+
+.scale-1x5 {
+    transform: scale(1.5);
+}
+
+.scale-2 {
+    transform: scale(2);
+}
+
+.different-color-cont {
+    background-color: rgb(146, 119, 255);
+    height: 75px;
+    width: 100%;
+    align-self: end;
+    border-radius: 25px 0 25px 0;
+}
+
+.icon-cont {
+    position: absolute; 
+    left: 0; 
+    right: 0;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
