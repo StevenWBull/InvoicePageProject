@@ -15,7 +15,7 @@ h1 {
   font-family: 'Spartan', sans-serif;
   font-size: 32px;
   line-height: 36px;
-  font-weight: bold;
+  font-weight: 1300;
   letter-spacing: -1pt;
 }
 
@@ -23,7 +23,7 @@ h2 {
   font-family: 'Spartan', sans-serif;
   font-size: 20px;
   line-height: 22px;
-  font-weight: bold;
+  font-weight: 1300;
   letter-spacing: -0.63pt;
 }
 
@@ -31,7 +31,7 @@ h3 {
   font-family: 'Spartan', sans-serif;
   font-size: 16px;
   line-height: 24px;
-  font-weight: bold;
+  font-weight: 1300;
   letter-spacing: -0.8pt;
 }
 
@@ -39,6 +39,6 @@ h4 {
   font-family: 'Spartan', sans-serif;
   font-size: 12px;
   line-height: 15px;
-  font-weight: bold;
+  font-weight: 1300;
   letter-spacing: -0.25pt;
 }
