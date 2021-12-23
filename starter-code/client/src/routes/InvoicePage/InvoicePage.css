@@ -1,48 +1,4 @@
-.invoice-page-cont {
-    margin-left: 10%;
-    padding-top: 5%;
-}
-
-.invoice-page-cont {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.invoice-title-cont {
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.invoice-filter-btn-cont {
-    width:33%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
 h1 {
     margin: 0;
     margin-bottom: 10px;
-}
-
-.invoice-cont {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.empty-view {
-    margin-top: 20%;
-    text-align: center;
-}
-
-.filter-cont {
-    cursor: pointer;
 }
