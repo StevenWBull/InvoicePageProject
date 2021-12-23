@@ -8,7 +8,7 @@
         "dev": "nodemon src/server.js",
         "start": "node src/server.js",
         "predeploy": "npm audit",
-        "seed": "psql -U admin -d cents-technical -f ./seeds/seed.tables.sql"
+        "seed": "psql -U admin -d cents_evaluation -f ./seeds/seed.tables.sql"
     },
     "keywords": [],
     "author": "Steven Bull",
