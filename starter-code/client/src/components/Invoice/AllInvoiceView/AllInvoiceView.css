@@ -1,13 +1,11 @@
 .invoice-page-cont {
-    margin-left: 8%;
+    margin-left: 6%;
     padding-top: 5%;
-}
-
-.invoice-page-cont {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color:white;
 }
 
 .invoice-title-cont {
@@ -18,11 +16,15 @@
 }
 
 .invoice-filter-btn-cont {
-    width:33%;
+    width:45%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.filter-cont > span {
+    padding-right: 15px;
 }
 
 .invoice-cont {

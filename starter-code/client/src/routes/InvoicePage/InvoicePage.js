@@ -9,8 +9,8 @@ export default class InvoicePage extends Component {
         return (
             <>
                 <SideNav />
-                {/* <AllInvoiceView /> */}
-                <SingleInvoiceView />
+                <AllInvoiceView />
+                {/* <SingleInvoiceView /> */}
             </>
         );
     }

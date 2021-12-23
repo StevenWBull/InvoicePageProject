@@ -8,7 +8,7 @@ export default class SingleInvoiceView extends Component {
             <section className="single-invoice-page-cont">
                 <div className="box1">
                     <div className="go-back-cont">
-                    <LeftArrow /> <h3>Go Back</h3>
+                        <LeftArrow /> <h3>Go Back</h3>
                     </div>
                 </div>
                 <div className="box2">
