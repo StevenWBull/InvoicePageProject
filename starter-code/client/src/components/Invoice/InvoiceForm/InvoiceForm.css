@@ -1,0 +1,91 @@
+#invoice-form {
+    overflow: auto;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 6px;
+    color: white;
+    background-color: rgb(37, 41, 69);
+    border-radius: 5px;
+    border: solid 1px rgb(37, 41, 69);
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.blue-text {
+    color: rgb(124, 93, 250);
+}
+
+.invoice-form-section {
+    position: fixed;
+    margin-left: 6%;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.invoice-form-cont {
+    background-color:rgb(30, 33, 57);
+    height: 100vh;
+    width: 30%;
+    padding: 3%;
+}
+
+.bill-from, .bill-to, .column-flex, .payment-details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 7px;
+}
+
+.payment-details {
+    margin-top: 15px;
+}
+
+.two-item-flex, .three-input-flex, .button-cont {
+    display: flex;
+    justify-content: space-between;
+}
+
+.two-item-flex > .column-flex {
+    flex: 1 1 0;
+}
+
+.two-item-flex > .left {
+    margin-right: 2%;
+}
+
+.two-item-flex > .right {
+    margin-left: 2%;
+}
+
+.five-item-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.column-flex-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.itemName {
+    width: 40%;
+}
+
+.quantity, .trashcan {
+    width: 6%;
+}
+
+.price, .total {
+    width: 14%;
+}
+
+.title > span {
+    align-self: flex-start;
+}
