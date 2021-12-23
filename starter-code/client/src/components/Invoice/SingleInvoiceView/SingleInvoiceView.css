@@ -1,3 +1,7 @@
+h2, h3 {
+    margin: 5px 0;
+}
+
 .single-invoice-page-cont {
     margin-left: 8%;
     padding-top: 4%;
@@ -16,17 +20,22 @@
 }
 
 .box1 {
-    height:50px;
+    height:30px;
 }
 
 .box2 {
-    background-color: blue;
+    color:white;
+    background-color: rgb(37, 41, 69);
     height: 100px;
+    border-radius: 10px;
 }
 
 .box3 {
-    background-color: blue;
-    height: 600px;
+    color: white;
+    background-color: rgb(37, 41, 69);
+    height: 700px;
+    overflow: auto;
+    border-radius: 10px;
 }
 
 .go-back-cont {
@@ -55,4 +64,95 @@
     width: 50%;
     display: flex;
     justify-content: space-around;
+}
+
+.box3-details-outer-box {
+    padding: 4%;
+}
+
+.invoice-details-title {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invoice-details-title > div {
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.invoice-details-title, .invoice-details {
+    margin-bottom: 20px;
+}
+
+.title-flex {
+    align-items: flex-end;
+}
+
+.invoice-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.invoice-details > div {
+    flex: 1 1 0
+}
+
+.sent-to-cont {
+    flex: 2 1 0;
+}
+
+.payment-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.billing-info-cont {
+    display: flex;
+    flex-direction: column;
+}
+
+.invoice-items-cont {
+    border: solid black 1px;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+.item-title-cont, .item-cont, .invoice-total {
+    padding: 1.5% 3% 1.5% 3%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.invoice-items {
+    padding: 1.5% 0;
+}
+
+.invoice-total {
+    padding: 0% 3% 0 3%;
+}
+
+.invoice-total {
+    height: 90px;
+    background-color: black;
+    border-radius: 0 0 10px 10px;
+}
+
+.item-title-cont > h3, .item-cont > h3 {
+    width: 20%;
+}
+
+h3.name {
+    width: 40%;
+}
+
+.quantity, .price, .total {
+    display: flex;
+    flex-direction: row-reverse;
+    align-self: flex-end;
 }
