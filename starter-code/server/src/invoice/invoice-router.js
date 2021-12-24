@@ -11,9 +11,8 @@ invoiceRouter
         const db = req.app.get('db');
         InvoiceService.getAllInvoices(db)
             .then(invoices => {
-                const invoiceArray = invoices.rows.map(invoice => invoice.json_build_object)
-                res.status(200).json(invoiceArray)
-                console.log(invoiceArray)
+                const invoiceArray = invoices.rows.map(invoice => invoice.json_build_object);
+                res.status(200).json(invoiceArray);
             })
             .catch(next)
     })
