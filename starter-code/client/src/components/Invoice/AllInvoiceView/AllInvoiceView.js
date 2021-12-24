@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EmptyInvoiceView from '../EmptyInvoiceView/EmptyInvoiceView';
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
+import InvoiceItem from '../InvoiceItem/InvoiceItem';
 import { ReactComponent as ArrowDown } from '../../../assets/icon-arrow-down.svg';
 import './AllInvoiceView.css'
 
