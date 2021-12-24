@@ -6,9 +6,10 @@ import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
     render() {
+        const { showCreateInvoiceForm } = this.props;
         return (
             <>
-                <InvoiceForm />
+                { showCreateInvoiceForm && <InvoiceForm /> }
                 <section className="invoice-page-cont">
                     <div className="invoice-title-cont">
                         <div>

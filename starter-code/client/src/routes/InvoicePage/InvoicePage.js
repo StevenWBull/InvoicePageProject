@@ -5,12 +5,22 @@ import SingleInvoiceView from '../../components/Invoice/SingleInvoiceView/Single
 import './InvoicePage.css';
 
 export default class InvoicePage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            singleInvoiceView: false,
+            showCreateInvoiceForm: false,
+            showEditInvoiceForm: false
+        };
+    }
+
     render() {
         return (
             <>
                 <SideNav />
-                <AllInvoiceView />
-                {/* <SingleInvoiceView /> */}
+                { this.state.singleInvoiceView 
+                    ? <SingleInvoiceView showEditInvoiceForm={this.state.showEditInvoiceForm} /> 
+                    : <AllInvoiceView showCreateInvoiceForm={this.state.showCreateInvoiceForm} /> }
             </>
         );
     }
