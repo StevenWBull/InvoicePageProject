@@ -10,7 +10,7 @@ describe("Invoice Endpoints", () => {
     testLeclientInsert,
     testLeinvoiceInsert,
     testLeitemInsert,
-    expectedInvoiceJsonObj
+    expectedInvoiceArray
   } = helpers;
 
   before("make knex instance", () => {
@@ -23,6 +23,7 @@ describe("Invoice Endpoints", () => {
 
   const cleanupQuery = multiline.stripIndent(() => {
     /*
+        TRUNCATE TABLE lskin CASCADE;
         ALTER SEQUENCE lskin_lskinid_seq RESTART WITH 1;
         ALTER SEQUENCE leclient_leclientid_seq RESTART WITH 1;
         ALTER SEQUENCE leinvoice_leinvoiceid_seq RESTART WITH 1;
@@ -37,10 +38,10 @@ describe("Invoice Endpoints", () => {
 
   describe("GET /api/invoice", () => {
         context("Given no invoices in the database", () => {
-            it("responds with 200 and an empty object", () => {
+            it("responds with 200 and an empty array", () => {
                 return supertest(app)
                     .get("/api/invoice")
-                    .expect(200, {});
+                    .expect(200, []);
             });
         });
 
@@ -50,11 +51,19 @@ describe("Invoice Endpoints", () => {
             beforeEach(() => db.into("leinvoice").insert(testLeinvoiceInsert));
             beforeEach(() => db.into("leitem").insert(testLeitemInsert));
 
-            it("responds with 200 and invoice JSON object", () => {
+            it("responds with 200 and invoice Array with JSON object", () => {
                 return supertest(app)
                 .get("/api/invoice")
                 .expect(200)
-                .expect(expectedInvoiceJsonObj);
+                .expect( res => {
+                    expect(res.body[res.body.length-1].id).to.equal(expectedInvoiceArray[0].id);
+                    expect(res.body[res.body.length-1].clientName).to.equal(expectedInvoiceArray[0].clientName);
+                    expect(res.body[res.body.length-1].lsid).to.equal(expectedInvoiceArray[0].lsid);
+                    expect(res.body[res.body.length-1].items[0].liid).to.equal(expectedInvoiceArray[0].items[0].liid);
+                    expect(res.body[res.body.length-1].items).to.be.a('array');
+                    expect(res.body[res.body.length-1].clientAddress).to.be.a('object');
+                    expect(res.body[res.body.length-1].senderAddress).to.be.a('object');
+                });
             });
         });
     });

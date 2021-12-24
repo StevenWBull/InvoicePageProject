@@ -34,7 +34,10 @@ const testLeitemInsert = {
     frn_leinvoiceid: 1
 }
 
-const expectedInvoiceJsonObj = {
+const expectedInvoiceArray = [{
+    "lvid": 1,
+    "lcid": 1,
+    "lsid": 1,
     "id": "RT3080",
     "createdAt": "2021-08-18",
     "paymentDue": "2021-08-19",
@@ -47,16 +50,17 @@ const expectedInvoiceJsonObj = {
         "street": "19 Union Terrace",
         "city": "London",
         "postCode": "E1 3EZ",
-        "country": "United Kingdom"
+        "country": "United Kingdon"
     },
     "clientAddress": {
         "street": "106 Kendell Street",
         "city": "Sharrington",
         "postCode": "NR24 5WQ",
-        "country": "United Kingdom"
+        "country": "United Kingdon"
     },
     "items": [
         {
+            "liid": 1,
             "name": "Brand Guidelines",
             "quantity": 1,
             "price": 1800.90,
@@ -64,12 +68,12 @@ const expectedInvoiceJsonObj = {
         }
     ],
     "total": 1800.90
-}
+}]
 
 module.exports = {
     testLskinInsert,
     testLeclientInsert,
     testLeinvoiceInsert,
     testLeitemInsert,
-    expectedInvoiceJsonObj
+    expectedInvoiceArray
 }
