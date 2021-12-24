@@ -2,6 +2,23 @@
     overflow: auto;
 }
 
+.invoice-form-section {
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+    animation-iteration-count: 1;
+    animation-name: fastSlide;
+    animation-timing-function: linear;
+    transform-origin: bottom;
+}
+@keyframes fastSlide {
+    0%   { transform: translate(100%); }
+    20%  { transform: translate(80%); }
+    40%  { transform: translate(60%); }
+    60%  { transform: translate(40%); }
+    80%  { transform: translate(20%); }
+    100% { transform: translate(0%); }
+}
+
 label {
     margin-bottom: 5px;
 }

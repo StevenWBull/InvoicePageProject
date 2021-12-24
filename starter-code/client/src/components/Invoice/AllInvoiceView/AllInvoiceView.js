@@ -7,10 +7,10 @@ import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
     render() {
-        const { showCreateInvoiceForm } = this.props;
+        const { showCreateInvoiceForm, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm } = this.props;
         return (
             <>
-                { showCreateInvoiceForm && <InvoiceForm /> }
+                { showCreateInvoiceForm && <InvoiceForm onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} /> }
                 <section className="invoice-page-cont">
                     <div className="invoice-title-cont">
                         <div>
@@ -24,7 +24,7 @@ export default class AllInvoiceView extends Component {
                                 <span>Filter by status</span><ArrowDown />
                             </div>
                             <div>
-                                <button>New Invoice</button>
+                                <button id="new-invoice-btn" onClick={onClickCreateInvoiceForm()}>New Invoice</button>
                             </div>
                         </div>
                     </div>

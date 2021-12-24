@@ -14,13 +14,27 @@ export default class InvoicePage extends Component {
         };
     }
 
+    showCreateInvoiceForm = () => {
+        return this.setState({ showCreateInvoiceForm: true });
+    }
+
+    discardInvoiceForm = () => {
+        return this.setState({ showCreateInvoiceForm: false });
+    }
+
+    saveInvoiceForm = () => {
+        return this.setState({ showCreateInvoiceForm: false });
+    }
+
     render() {
         return (
             <>
                 <SideNav />
                 { this.state.singleInvoiceView 
-                    ? <SingleInvoiceView showEditInvoiceForm={this.state.showEditInvoiceForm} /> 
-                    : <AllInvoiceView showCreateInvoiceForm={this.state.showCreateInvoiceForm} /> }
+                    ? <SingleInvoiceView 
+                        showEditInvoiceForm={this.state.showEditInvoiceForm}
+                        onCLickSaveInvoiceForm={() => this.saveInvoiceForm} /> 
+                    : <AllInvoiceView showCreateInvoiceForm={this.state.showCreateInvoiceForm} onClickCreateInvoiceForm={() => this.showCreateInvoiceForm} onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} onCLickSaveInvoiceForm={() => this.saveInvoiceForm} /> }
             </>
         );
     }

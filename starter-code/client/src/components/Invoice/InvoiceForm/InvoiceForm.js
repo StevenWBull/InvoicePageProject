@@ -4,6 +4,7 @@ import './InvoiceForm.css';
 
 export default class InvoiceForm extends Component {
     render() {
+        const { onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm } = this.props;
         return (
             <section className="invoice-form-section">
                 <div className="invoice-form-cont">
@@ -11,42 +12,42 @@ export default class InvoiceForm extends Component {
                     <form id="invoice-form">
                         <div className="bill-from">
                             <h4 className="blue-text">Bill From</h4>
-                            <label for="streetAddress">Street Address</label>
+                            <label htmlFor="streetAddress">Street Address</label>
                             <input className="streetAddress" name="streetAddress"></input>
                             <div className="three-input-flex">
                                 <div className="column-flex">
-                                    <label for="city">City</label>
+                                    <label htmlFor="city">City</label>
                                     <input className="city" name="city"></input>
                                 </div>
                                 <div className="column-flex">
-                                    <label for="postalCode">Post Code</label>
+                                    <label htmlFor="postalCode">Post Code</label>
                                     <input className="postalCode" name="postalCode"></input>
                                 </div>
                                 <div className="column-flex">
-                                    <label for="country">Country</label>
+                                    <label htmlFor="country">Country</label>
                                     <input className="country" name="country"></input>
                                 </div>
                             </div>
                         </div>
                         <div className="bill-to">
                             <h4 className="blue-text">Bill To</h4>
-                            <label for="clientName">Client's Name</label>
+                            <label htmlFor="clientName">Client's Name</label>
                             <input className="clientName" name="clientName"></input>
-                            <label for="clientEmail">Client's Email</label>
+                            <label htmlFor="clientEmail">Client's Email</label>
                             <input className="clientEmail" name="clientEmail"></input>
-                            <label for="clientStreetAddress">Street Address</label>
+                            <label htmlFor="clientStreetAddress">Street Address</label>
                             <input className="clientStreetAddress" name="clientStreetAddress"></input>
                             <div className="three-input-flex">
                                 <div className="column-flex">
-                                    <label for="clientCity">City</label>
+                                    <label htmlFor="clientCity">City</label>
                                     <input className="clientCity" name="clientCity"></input>
                                 </div>
                                 <div className="column-flex">
-                                    <label for="clientPostalCode">Post Code</label>
+                                    <label htmlFor="clientPostalCode">Post Code</label>
                                     <input className="clientPostalCode" name="clientPostalCode"></input>
                                 </div>
                                 <div className="column-flex">
-                                    <label for="clientCountry">Country</label>
+                                    <label htmlFor="clientCountry">Country</label>
                                     <input className="clientCountry" name="clientCountry"></input>
                                 </div>
                             </div>
@@ -54,15 +55,15 @@ export default class InvoiceForm extends Component {
                         <div className="payment-details">
                             <div className="two-item-flex">
                                 <div className="column-flex left">
-                                    <label for="issueDate">Issue Date</label>
+                                    <label htmlFor="issueDate">Issue Date</label>
                                     <input className="issueDate" name="issueDate"></input>
                                 </div>
                                 <div className="column-flex right">
-                                    <label for="paymentTerms">Payment Terms</label>
+                                    <label htmlFor="paymentTerms">Payment Terms</label>
                                     <input className="paymentTerms" name="paymentTerms"></input>
                                 </div>
                             </div>
-                            <label for="projectDescription">Project Description</label>
+                            <label htmlFor="projectDescription">Project Description</label>
                             <input className="projectDescription" name="projectDescription"></input>
                         </div>
                         <div className="payment-details">
@@ -93,10 +94,10 @@ export default class InvoiceForm extends Component {
                             <button>Add New Item</button>
                         </div>
                         <div className="button-cont">
-                            <button>Discard</button>
+                            <button onClick={onCLickDiscardInvoiceForm()}>Discard</button>
                             <div>
-                                <button>Save as Draft</button>
-                                <button>Save & Send</button>
+                                <button onClick={onCLickSaveInvoiceForm()}>Save as Draft</button>
+                                <button onClick={onCLickSaveInvoiceForm()}>Save & Send</button>
                             </div>
                         </div>
                     </form>
