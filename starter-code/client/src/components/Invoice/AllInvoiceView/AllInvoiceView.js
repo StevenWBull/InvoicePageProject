@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
 import { ReactComponent as ArrowDown } from '../../../assets/icon-arrow-down.svg';
 import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
-import EmptyInvoiceView from '../EmptyInvoiceView/EmptyInvoiceView';
-import InvoiceItem from '../InvoiceItem/InvoiceItem';
 import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {

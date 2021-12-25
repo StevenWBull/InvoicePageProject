@@ -46,16 +46,21 @@ export default class InvoicePage extends Component {
                 status={invoice.status}
                 total={invoice.total}
                 clientName={invoice.clientName}
-                onClickShowSingleInvoice={() => this.renderSingleInvoice}
+                onClickShowSingleInvoice={event => this.renderSingleInvoice(invoice.lvid, event)}
             />
         )
         console.log('invoicesArr => ', invoicesArr)
         return invoicesArr;
     }
 
-    renderSingleInvoice = (lvid) => {
+    renderSingleInvoice = (lvid, e) => {
         const invoice = this.state.invoice.find(obj => obj.lvid === lvid);
-        this.setState({ singleInvoiceView: invoice, singleInvoiceView: true })
+        console.log(invoice)
+        this.setState({ singleInvoice: invoice, singleInvoiceView: true })
+    }
+
+    goBack = () => {
+        this.setState({ singleInvoice: {}, singleInvoiceView: false })
     }
 
     showCreateInvoiceForm = () => {
@@ -77,7 +82,9 @@ export default class InvoicePage extends Component {
                 { this.state.singleInvoiceView 
                     ? <SingleInvoiceView 
                         showEditInvoiceForm={this.state.showEditInvoiceForm}
-                        onCLickSaveInvoiceForm={() => this.saveInvoiceForm} /> 
+                        onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
+                        goBack={() => this.goBack}
+                        singleInvoiceObj={this.state.singleInvoice} /> 
                     : <AllInvoiceView 
                         showCreateInvoiceForm={this.state.showCreateInvoiceForm} 
                         onClickCreateInvoiceForm={() => this.showCreateInvoiceForm} 
