@@ -25,4 +25,31 @@
 
 .invoice-item-cont > h1 {
     margin: 0;
+    width: 20%;
+    display: flex;
+    justify-content: end;
+}
+
+.invoice-item-cont > h2 {
+    width: 15%;
+}
+
+.invoice-item-cont > h3 {
+    width: 20%;
+}
+
+.invoice-item-cont > div {
+    width: 15%;
+}
+
+.status-cont {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    border: solid rgb(37, 41, 69) 1px;
+    background-color: rgb(45, 50, 84);
+    padding: 8px 0;
+    border-radius: 7px;;
 }

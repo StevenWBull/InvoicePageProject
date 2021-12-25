@@ -14,6 +14,7 @@ export default class InvoicePage extends Component {
             invoice: [],
             invoiceCount: 0,
             singleInvoiceView: false,
+            singleInvoice: {},
             showCreateInvoiceForm: false,
             showEditInvoiceForm: false
         };
@@ -34,14 +35,27 @@ export default class InvoicePage extends Component {
 
     renderInvoices = () => {
         const invoices = this.state.invoice;
+        console.log(invoices)
         if (invoices === [{}])
         return <EmptyInvoiceView />
     
         const invoicesArr = invoices.map((invoice, idx) => 
-            <InvoiceItem />
+            <InvoiceItem 
+                key={invoice.lvid}
+                id={invoice.id}
+                status={invoice.status}
+                total={invoice.total}
+                clientName={invoice.clientName}
+                onClickShowSingleInvoice={() => this.renderSingleInvoice}
+            />
         )
         console.log('invoicesArr => ', invoicesArr)
         return invoicesArr;
+    }
+
+    renderSingleInvoice = (lvid) => {
+        const invoice = this.state.invoice.find(obj => obj.lvid === lvid);
+        this.setState({ singleInvoiceView: invoice, singleInvoiceView: true })
     }
 
     showCreateInvoiceForm = () => {
