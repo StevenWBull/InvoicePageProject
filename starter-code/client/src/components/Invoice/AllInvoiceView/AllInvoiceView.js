@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import EmptyInvoiceView from '../EmptyInvoiceView/EmptyInvoiceView';
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
-import InvoiceItem from '../InvoiceItem/InvoiceItem';
 import { ReactComponent as ArrowDown } from '../../../assets/icon-arrow-down.svg';
 import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
+import EmptyInvoiceView from '../EmptyInvoiceView/EmptyInvoiceView';
+import InvoiceItem from '../InvoiceItem/InvoiceItem';
 import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
     render() {
-        const { showCreateInvoiceForm, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm } = this.props;
+        const { showCreateInvoiceForm, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, renderInvoices, invoiceCount } = this.props;
         return (
             <>
                 { showCreateInvoiceForm && <InvoiceForm onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} /> }
@@ -17,7 +17,7 @@ export default class AllInvoiceView extends Component {
                         <div>
                             <div>
                                 <h1>Invoices</h1>
-                                <span>There are currently 7 invoices</span>
+                                <span>There are currently {invoiceCount} invoices</span>
                             </div>
                         </div>
                         <div className="invoice-filter-btn-cont">
@@ -30,7 +30,7 @@ export default class AllInvoiceView extends Component {
                         </div>
                     </div>
                     <div className="invoice-cont">
-                        <EmptyInvoiceView />
+                        {renderInvoices}
                     </div>
                 </section>
             </>
