@@ -3,6 +3,7 @@ import EmptyInvoiceView from '../EmptyInvoiceView/EmptyInvoiceView';
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
 import InvoiceItem from '../InvoiceItem/InvoiceItem';
 import { ReactComponent as ArrowDown } from '../../../assets/icon-arrow-down.svg';
+import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
 import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
@@ -24,7 +25,7 @@ export default class AllInvoiceView extends Component {
                                 <span>Filter by status</span><ArrowDown />
                             </div>
                             <div>
-                                <button id="new-invoice-btn" onClick={onClickCreateInvoiceForm()}>New Invoice</button>
+                                <button id="new-invoice-btn" className="btn btn-primary" onClick={onClickCreateInvoiceForm()}><div className="icon-plus-cont"><IconPlus /></div><h4>New Invoice</h4></button>
                             </div>
                         </div>
                     </div>

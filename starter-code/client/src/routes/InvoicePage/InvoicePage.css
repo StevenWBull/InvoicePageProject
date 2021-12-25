@@ -2,3 +2,84 @@ h1 {
     margin: 0;
     margin-bottom: 10px;
 }
+
+.btn {
+    background-color: rgb(124, 93, 250);
+    border: 1px solid rgb(124, 93, 250);
+    padding: 4px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: rgb(124, 93, 250);
+    border: 1px solid rgb(124, 93, 250);
+}
+
+.btn-primary:hover {
+    background-color: rgb(146, 119, 255);
+    border: 1px solid rgb(146, 119, 255);
+}
+
+.btn > h4 {
+    margin: 8px;
+}
+
+.btn-primary > div {
+    background-color: white;
+    height:30px;
+    width: 30px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.icon-plus-cont {
+    position: relative;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-discard {
+    background-color: rgb(236, 87, 87);
+    border: 1px solid rgb(236, 87, 87);
+}
+
+.btn-discard:hover {
+    background-color: rgb(255, 151, 151);
+    border: 1px solid rgb(255, 151, 151);
+}
+
+.btn-add-new-item {
+    color: white;
+    background-color: rgb(37, 41, 69);
+    border: solid 1px rgb(37, 41, 69);
+    align-self: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.btn-add-new-item * {
+    fill:white;
+}
+
+.btn-save, .btn-save-draft, .btn-cancel {
+    padding-right: 12px; 
+    padding-left: 12px;
+}
+
+.btn-save-draft, .btn-cancel {
+    background-color: rgb(37, 41, 69);
+    border: solid 1px rgb(37, 41, 69);
+    margin-right: 10px;
+}
+
+.btn-save-draft:hover, .btn-cancel:hover, .btn-add-new-item:hover {
+    background-color: rgb(12, 14, 22);
+    border: solid 1px rgb(20, 22, 37);
+}

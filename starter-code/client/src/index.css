@@ -43,3 +43,46 @@ h4 {
   font-weight: 1300;
   letter-spacing: -0.25pt;
 }
+
+/**
+ * Normalize styling for buttons, and inputs
+ */
+
+ button,
+ input,
+ select,
+ textarea {
+   font-family: inherit; 
+   font-size: 100%; 
+   line-height: 1.15; 
+   margin: 0; 
+ }
+ 
+ /**
+  * Remove the inheritance of text transform in Edge, Firefox, and IE.
+  */
+ 
+ button,
+ select { /* 1 */
+   text-transform: none;
+ }
+ 
+ /**
+  * Correct the inability to style clickable types in iOS and Safari.
+  */
+ 
+ button,
+ [type="button"],
+ [type="reset"],
+ [type="submit"] {
+   -webkit-appearance: button;
+ }
+
+ button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	outline: inherit;
+}

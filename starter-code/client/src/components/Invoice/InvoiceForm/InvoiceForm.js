@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ReactComponent as TrashCan } from '../../../assets/icon-delete.svg';
+import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
 import './InvoiceForm.css';
 
 export default class InvoiceForm extends Component {
@@ -91,13 +92,13 @@ export default class InvoiceForm extends Component {
                                     <span className="trashcan"><TrashCan /></span>
                                 </div>
                             </div>
-                            <button>Add New Item</button>
+                            <button className="btn btn-add-new-item"><IconPlus /><h4>Add New Item</h4></button>
                         </div>
                         <div className="button-cont">
-                            <button onClick={onCLickDiscardInvoiceForm()}>Discard</button>
-                            <div>
-                                <button onClick={onCLickSaveInvoiceForm()}>Save as Draft</button>
-                                <button onClick={onCLickSaveInvoiceForm()}>Save & Send</button>
+                            <button className="btn btn-discard" onClick={onCLickDiscardInvoiceForm()}><h4>Discard</h4></button>
+                            <div className="save-btn-cont">
+                                <button className="btn btn-save-draft" onClick={onCLickSaveInvoiceForm()}>Save as Draft</button>
+                                <button className="btn btn-primary btn-save" onClick={onCLickSaveInvoiceForm()}>Save & Send</button>
                             </div>
                         </div>
                     </form>
