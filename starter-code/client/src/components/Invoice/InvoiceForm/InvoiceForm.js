@@ -13,9 +13,9 @@ export default class InvoiceForm extends Component {
     renderItems = (itemArr=[]) => {
         let items = (
             <div className="column-flex-item">
-                <input className="itemName" name="itemName1" defaultValue=""></input>
-                <input className="quantity" name="quantity1" defaultValue=""></input>
-                <input className="price" data-itemNum="1" name="price1" defaultValue=""></input>
+                <input className="itemName" name="itemName0" defaultValue=""></input>
+                <input className="quantity" name="quantity0" defaultValue=""></input>
+                <input className="price" name="price0" defaultValue=""></input>
                 <span className="total">0.00</span>
                 <span className="trashcan"><TrashCan /></span>
             </div>
@@ -61,8 +61,20 @@ export default class InvoiceForm extends Component {
         const dataObj = { items: []};
         const itemIdentifier = ['itemName', 'quantity', 'price', 'quantity']
         for (let i = 0; i < inputs.length; i++) {
-            if (itemIdentifier.includes(inputs[i].name))
-                console.log(inputs[i])
+            const itemNameCheck = inputs[i].name.slice(0, -1);
+            if (itemIdentifier.includes(itemNameCheck)) {
+                const itemIdx = inputs[i].name.slice(-1);
+                
+                const currEleIdx = dataObj.items.findIndex(ele => ele.liid === Number(itemIdx))
+                
+                console.log(currEleIdx, itemNameCheck)
+                if (currEleIdx >= 0)
+                    dataObj.items[currEleIdx][itemNameCheck] = inputs[i].value;
+                else {
+                    dataObj.items[dataObj.items.length] = { liid: Number(itemIdx) }
+                    dataObj.items[dataObj.items.length-1][itemNameCheck] = inputs[i].value;
+                }
+            }
             else
                 dataObj[inputs[i].name] = inputs[i].value
         }
@@ -74,7 +86,7 @@ export default class InvoiceForm extends Component {
         return (
             <section className="invoice-form-section">
                 <div className="invoice-form-cont">
-                    <h1>{formType === "save" ? 'New Invoice' : 'Edit Invoice'}</h1>
+                    <h1>{formType === "save" ? 'New Invoice' : `Edit #${this.props.invoice.id}` }</h1>
                     <form onSubmit={(e) => this.onSubmit(e)} action="" id="invoice-form">
                         <div className="bill-from">
                             <h4 className="blue-text">Bill From</h4>
@@ -122,11 +134,11 @@ export default class InvoiceForm extends Component {
                             <div className="two-item-flex">
                                 <div className="column-flex left">
                                     <label htmlFor="issueDate">Issue Date</label>
-                                    <input className="issueDate" name="issueDate"></input>
+                                    <input className="issueDate" name="issueDate" defaultValue={formType === 'edit' ? this.props.invoice.createdAt : ''}></input>
                                 </div>
                                 <div className="column-flex right">
                                     <label htmlFor="paymentTerms">Payment Terms</label>
-                                    <input className="paymentTerms" name="paymentTerms"></input>
+                                    <input className="paymentTerms" name="paymentTerms" defaultValue={formType === 'edit' ? this.props.invoice.paymentTerms : ''}></input>
                                 </div>
                             </div>
                             <label htmlFor="projectDescription">Project Description</label>

@@ -20,7 +20,7 @@ export default class SingleInvoiceView extends Component {
 
     render() {
         const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, goBack, singleInvoiceObj } = this.props;
-        const { status, id, items, paymentDue, createdDate, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
+        const { status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
         return (
             <>
                 { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} invoice={singleInvoiceObj} /> }
@@ -62,11 +62,11 @@ export default class SingleInvoiceView extends Component {
                                     <div className="payment-cont">
                                         <div>
                                             <h3>Invoice Date</h3>
-                                            <h2>21 Aug 2021</h2>
+                                            <h2>{createdAt}</h2>
                                         </div>
                                         <div>
                                             <h3>Payment Due</h3>
-                                            <h2>21 Aug 2021</h2>
+                                            <h2>{paymentDue}</h2>
                                         </div>
                                     </div>
                                     <div className="billing-info-cont">
