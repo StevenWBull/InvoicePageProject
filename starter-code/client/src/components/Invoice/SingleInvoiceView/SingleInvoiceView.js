@@ -35,7 +35,7 @@ export default class SingleInvoiceView extends Component {
 
     render() {
         const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, onClickDeleteInvoice, goBack, singleInvoiceObj } = this.props;
-        const { lvid, status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
+        const { status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
         return (
             <>
                 { this.state.showDeletePrompt && <MessageModal cancelInvoiceDeletion={() => this.cancelInvoiceDeletion} onClickDeleteInvoice={() => onClickDeleteInvoice()} />}

@@ -37,9 +37,22 @@ const InvoiceService = {
                 inner join leclient lc on lc.leclientid = lv.frn_leclientid 
                 inner join lskin ls on ls.lskinid = lc.frn_lskinid
                 left join leitem li on li.frn_leinvoiceid  = lv.leinvoiceid
+                where lv.deleted_timestamp is null
                 group by lv.leinvoiceid, lc.leclientid, ls.lskinid;
         */})
         return db.raw(getInvoiceQuery);
+    },
+    deleteInvoice(db, lvid) {
+        return db 
+            .from('leinvoice')
+            .where({ 'leinvoiceid': lvid })
+            .update({ 'deleted_timestamp': 'NOW()' })
+    },
+    deleteItems(db, lvid) {
+        return db 
+            .from('leitem')
+            .where({ 'frn_leinvoiceid': lvid })
+            .update({ 'deleted_timestamp': 'NOW()' })
     }
 }
 

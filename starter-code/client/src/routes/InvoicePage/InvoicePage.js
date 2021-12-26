@@ -36,6 +36,11 @@ export default class InvoicePage extends Component {
             this.renderSingleInvoice(Number(lvid));
     }
 
+    removeUrlParams = () => {
+        const removeParam = window.location.pathname
+        return window.history.pushState({ path: removeParam }, '', removeParam);
+    }
+
     getInvoices = () => {
         return InvoiceApiService.getInvoiceArray()
             .then(data => {
@@ -48,10 +53,9 @@ export default class InvoicePage extends Component {
 
     renderInvoices = () => {
         const invoices = this.state.invoice;
-        // if (Object.keys(this.state.singleInvoice).length)
-        //     return this.renderSingleInvoice(this.state.singleInvoice.lvid)
+        console.log(invoices)
 
-        if (invoices === [{}])
+        if (!invoices.length)
             return <EmptyInvoiceView />
     
         const invoicesArr = invoices.map((invoice, idx) => 
@@ -69,12 +73,10 @@ export default class InvoicePage extends Component {
     }
 
     renderSingleInvoice = (lvid, e={}) => {
-        console.log('Ran')
         const invoice = this.state.invoice.find(obj => obj.lvid === lvid);
         if (!invoice) {
             // Remove any invoice id from url and render all invoices
-            const removeParam = window.location.pathname
-            window.history.pushState({ path: removeParam }, '', removeParam);
+            this.removeUrlParams();
             return this.renderInvoices();
         }
         // Add invoice id to url
@@ -85,13 +87,21 @@ export default class InvoicePage extends Component {
 
     deleteInvoice = () => {
         const lvid = this.state.singleInvoice.lvid;
-        console.log(lvid)
+        return InvoiceApiService.deleteInvoice(lvid)
+            .then(() => {
+                this.removeUrlParams();
+
+                this.setState({ 
+                    singleInvoice: {}, 
+                    singleInvoiceView: false, 
+                    invoice: this.state.invoice.filter(ele => ele.lvid != lvid) 
+                });
+            })
     }
 
     goBack = () => {
         // Remove any invoice id from url
-        const removeParam = window.location.pathname
-        window.history.pushState({ path: removeParam }, '', removeParam);
+        this.removeUrlParams();
         this.setState({ singleInvoice: {}, singleInvoiceView: false })
     }
 

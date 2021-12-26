@@ -1,3 +1,5 @@
+const { NODE_ENV } = require('../config');
+
 function errorHandler(error, req, res, next) {
     const response = (NODE_ENV === 'production')
         ? { error: 'Server error' }
