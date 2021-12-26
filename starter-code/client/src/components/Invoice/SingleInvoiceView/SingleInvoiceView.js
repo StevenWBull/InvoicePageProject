@@ -19,11 +19,11 @@ export default class SingleInvoiceView extends Component {
     }
 
     render() {
-        const { showEditInvoiceForm, onCLickSaveInvoiceForm, goBack, singleInvoiceObj } = this.props;
+        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, goBack, singleInvoiceObj } = this.props;
         const { status, id, items, paymentDue, createdDate, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
         return (
             <>
-                { showEditInvoiceForm && <InvoiceForm /> }
+                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} invoice={singleInvoiceObj} /> }
                 <section className="single-invoice-page-cont">
                     <div className="box1">
                         <div className="go-back-cont" onClick={goBack()}>
@@ -38,7 +38,7 @@ export default class SingleInvoiceView extends Component {
                             </div>
                         </div>
                         <div className="box2-right-side">
-                            <button className='btn btn-edit single-invoice-btn'><h4>Edit</h4></button>
+                            <button className='btn btn-edit single-invoice-btn' onClick={onClickEditInvoiceForm()}><h4>Edit</h4></button>
                             <button className='btn btn-discard single-invoice-btn'><h4>Delete</h4></button>
                             <button className='btn btn-primary single-invoice-btn'><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>
                         </div>

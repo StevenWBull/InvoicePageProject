@@ -16,8 +16,7 @@ export default class InvoicePage extends Component {
             invoiceCount: 0,
             singleInvoiceView: false,
             singleInvoice: {},
-            showCreateInvoiceForm: false,
-            showEditInvoiceForm: false
+            showInvoiceForm: false,
         };
     }
 
@@ -48,12 +47,15 @@ export default class InvoicePage extends Component {
 
     renderInvoices = () => {
         const invoices = this.state.invoice;
+        // if (Object.keys(this.state.singleInvoice).length)
+        //     return this.renderSingleInvoice(this.state.singleInvoice.lvid)
+
         if (invoices === [{}])
-        return <EmptyInvoiceView />
+            return <EmptyInvoiceView />
     
         const invoicesArr = invoices.map((invoice, idx) => 
             <InvoiceItem 
-                key={invoice.lvid}
+                key={idx}
                 lvid={invoice.lvid}
                 id={invoice.id}
                 status={invoice.status}
@@ -65,7 +67,8 @@ export default class InvoicePage extends Component {
         return invoicesArr;
     }
 
-    renderSingleInvoice = (lvid, e) => {
+    renderSingleInvoice = (lvid, e={}) => {
+        console.log('Ran')
         const invoice = this.state.invoice.find(obj => obj.lvid === lvid);
         if (!invoice) {
             // Remove any invoice id from url and render all invoices
@@ -86,16 +89,17 @@ export default class InvoicePage extends Component {
         this.setState({ singleInvoice: {}, singleInvoiceView: false })
     }
 
-    showCreateInvoiceForm = () => {
-        return this.setState({ showCreateInvoiceForm: true });
+    showInvoiceForm = () => {
+        console.log('Toggle')
+        return this.setState({ showInvoiceForm: true });
     }
 
     discardInvoiceForm = () => {
-        return this.setState({ showCreateInvoiceForm: false });
+        return this.setState({ showInvoiceForm: false });
     }
 
     saveInvoiceForm = () => {
-        return this.setState({ showCreateInvoiceForm: false });
+        return this.setState({ showInvoiceForm: false });
     }
 
     render() {
@@ -104,13 +108,16 @@ export default class InvoicePage extends Component {
                 <SideNav />
                 { this.state.singleInvoiceView 
                     ? <SingleInvoiceView 
-                        showEditInvoiceForm={this.state.showEditInvoiceForm}
+                        key={1}
+                        showEditInvoiceForm={this.state.showInvoiceForm}
+                        onClickEditInvoiceForm={() => this.showInvoiceForm}
                         onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
                         goBack={() => this.goBack}
                         singleInvoiceObj={this.state.singleInvoice} /> 
                     : <AllInvoiceView 
-                        showCreateInvoiceForm={this.state.showCreateInvoiceForm} 
-                        onClickCreateInvoiceForm={() => this.showCreateInvoiceForm} 
+                        key={1}
+                        showCreateInvoiceForm={this.state.showInvoiceForm} 
+                        onClickCreateInvoiceForm={() => this.showInvoiceForm} 
                         onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
                         onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
                         renderInvoices={this.renderInvoices()}
