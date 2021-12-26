@@ -1,28 +1,44 @@
 import React, { Component } from 'react';
 import { ReactComponent as LeftArrow } from '../../../assets/icon-arrow-left.svg';
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
+import MessageModal from '../../MessageModal/MessageModal';
 import './SingleInvoiceView.css';
 
 export default class SingleInvoiceView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { 
+            showDeletePrompt: false,
+            deleteInvoice: false,
+        }
+    }
+
+    onClickDelete = () => {
+        this.setState({ showDeletePrompt: true })
+    }
+
+    cancelInvoiceDeletion = () => {
+        this.setState({ showDeletePrompt: false })
+    }
+
     renderItems = (itemArr) => {
         const items = itemArr.map((item, idx) => (
-            
                 <div className="item-cont">
                     <h3 className="name">{item.name}</h3>
                     <h3 className="quantity">{item.quantity}</h3>
                     <h3 className="price">$ {item.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
                     <h3 className="total">$ {item.total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
                 </div>
-            
         ))
         return items;
     }
 
     render() {
-        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, goBack, singleInvoiceObj } = this.props;
-        const { status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
+        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, onClickDeleteInvoice, goBack, singleInvoiceObj } = this.props;
+        const { lvid, status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
         return (
             <>
+                { this.state.showDeletePrompt && <MessageModal cancelInvoiceDeletion={() => this.cancelInvoiceDeletion} onClickDeleteInvoice={() => onClickDeleteInvoice()} />}
                 { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} invoice={singleInvoiceObj} /> }
                 <section className="single-invoice-page-cont">
                     <div className="box1">
@@ -39,7 +55,7 @@ export default class SingleInvoiceView extends Component {
                         </div>
                         <div className="box2-right-side">
                             <button className='btn btn-edit single-invoice-btn' onClick={onClickEditInvoiceForm()}><h4>Edit</h4></button>
-                            <button className='btn btn-discard single-invoice-btn'><h4>Delete</h4></button>
+                            <button className='btn btn-discard single-invoice-btn' onClick={this.onClickDelete}><h4>Delete</h4></button>
                             <button className='btn btn-primary single-invoice-btn'><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>
                         </div>
                     </div>

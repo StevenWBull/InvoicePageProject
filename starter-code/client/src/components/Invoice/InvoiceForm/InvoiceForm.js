@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ReactComponent as TrashCan } from '../../../assets/icon-delete.svg';
 import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
+import MessageModal from '../../MessageModal/MessageModal';
 import './InvoiceForm.css';
 
 export default class InvoiceForm extends Component {
@@ -57,17 +58,15 @@ export default class InvoiceForm extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const inputs = e.target.elements;
-        console.log(e.target.elements)
-        const dataObj = { items: []};
+        const dataObj = { items: [] };
         const itemIdentifier = ['itemName', 'quantity', 'price', 'quantity']
+
         for (let i = 0; i < inputs.length; i++) {
             const itemNameCheck = inputs[i].name.slice(0, -1);
             if (itemIdentifier.includes(itemNameCheck)) {
                 const itemIdx = inputs[i].name.slice(-1);
-                
                 const currEleIdx = dataObj.items.findIndex(ele => ele.liid === Number(itemIdx))
-                
-                console.log(currEleIdx, itemNameCheck)
+
                 if (currEleIdx >= 0)
                     dataObj.items[currEleIdx][itemNameCheck] = inputs[i].value;
                 else {

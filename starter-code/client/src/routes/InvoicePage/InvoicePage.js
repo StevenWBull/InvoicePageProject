@@ -17,6 +17,7 @@ export default class InvoicePage extends Component {
             singleInvoiceView: false,
             singleInvoice: {},
             showInvoiceForm: false,
+            deleteInvoice: 0
         };
     }
 
@@ -82,6 +83,11 @@ export default class InvoicePage extends Component {
         this.setState({ singleInvoice: invoice, singleInvoiceView: true })
     }
 
+    deleteInvoice = () => {
+        const lvid = this.state.singleInvoice.lvid;
+        console.log(lvid)
+    }
+
     goBack = () => {
         // Remove any invoice id from url
         const removeParam = window.location.pathname
@@ -90,7 +96,6 @@ export default class InvoicePage extends Component {
     }
 
     showInvoiceForm = () => {
-        console.log('Toggle')
         return this.setState({ showInvoiceForm: true });
     }
 
@@ -113,6 +118,7 @@ export default class InvoicePage extends Component {
                         onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
                         onClickEditInvoiceForm={() => this.showInvoiceForm}
                         onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
+                        onClickDeleteInvoice={() => this.deleteInvoice()}
                         goBack={() => this.goBack}
                         singleInvoiceObj={this.state.singleInvoice} /> 
                     : <AllInvoiceView 
