@@ -6,7 +6,7 @@ import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
     render() {
-        const { showCreateInvoiceForm, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, renderInvoices, invoiceCount } = this.props;
+        const { showCreateInvoiceForm, onFilterSelect, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, renderInvoices, invoiceCount } = this.props;
         return (
             <>
                 { showCreateInvoiceForm && <InvoiceForm formType="save" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} /> }
@@ -20,7 +20,13 @@ export default class AllInvoiceView extends Component {
                         </div>
                         <div className="invoice-filter-btn-cont">
                             <div className="filter-cont">
-                                <span>Filter by status</span><ArrowDown />
+                                <select className="filter-dd" onChange={onFilterSelect()}>
+                                    <option selected disabled>Filter by Status </option>
+                                    <option value="">No Filter</option>
+                                    <option value="paid">Paid</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="draft">Draft</option>
+                                </select>
                             </div>
                             <div>
                                 <button id="new-invoice-btn" className="btn btn-primary" onClick={onClickCreateInvoiceForm()}><div className="icon-plus-cont"><IconPlus /></div><h4>New Invoice</h4></button>

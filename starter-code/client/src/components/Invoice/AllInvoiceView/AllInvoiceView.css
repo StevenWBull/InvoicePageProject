@@ -41,3 +41,11 @@
     margin-right: 50px;
     cursor: pointer;
 }
+
+.filter-dd {
+    background-color: rgb(20, 22, 37);
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}

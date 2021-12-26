@@ -6,7 +6,6 @@ import InvoiceItem from '../../components/Invoice/InvoiceItem/InvoiceItem';
 import InvoiceApiService from '../../services/invoiceApiService';
 import './InvoicePage.css';
 import EmptyInvoiceView from '../../components/Invoice/EmptyInvoiceView/EmptyInvoiceView';
-import { useParams } from 'react-router-dom';
 
 export default class InvoicePage extends Component {
     constructor(props) {
@@ -17,7 +16,8 @@ export default class InvoicePage extends Component {
             singleInvoiceView: false,
             singleInvoice: {},
             showInvoiceForm: false,
-            deleteInvoice: 0
+            deleteInvoice: 0,
+            filterInvoicesBy: ''
         };
     }
 
@@ -51,8 +51,15 @@ export default class InvoicePage extends Component {
             })
     }
 
+    filterInvoices = (invoiceArr) => {
+        if (!this.state.filterInvoicesBy)
+            return invoiceArr;
+
+        return invoiceArr.filter(ele => ele.status === this.state.filterInvoicesBy);
+    }
+
     renderInvoices = () => {
-        const invoices = this.state.invoice;
+        const invoices = this.filterInvoices(this.state.invoice);
         console.log(invoices)
 
         if (!invoices.length)
@@ -117,6 +124,12 @@ export default class InvoicePage extends Component {
         return this.setState({ showInvoiceForm: false });
     }
 
+    onFilterSelect = (e) => {
+        const filterBy = e.target.value;
+        console.log(filterBy)
+        this.setState({ filterInvoicesBy: filterBy })
+    }
+
     render() {
         return (
             <>
@@ -133,6 +146,7 @@ export default class InvoicePage extends Component {
                         singleInvoiceObj={this.state.singleInvoice} /> 
                     : <AllInvoiceView 
                         key={1}
+                        onFilterSelect={() => this.onFilterSelect}
                         showCreateInvoiceForm={this.state.showInvoiceForm} 
                         onClickCreateInvoiceForm={() => this.showInvoiceForm} 
                         onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
