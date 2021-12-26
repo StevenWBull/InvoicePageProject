@@ -33,12 +33,14 @@ export default class SingleInvoiceView extends Component {
                     <div className="box2">
                         <div className="box2-left-side">
                             <h3>Status</h3>
-                            <h3>&#9679; {status}</h3>
+                            <div className="single-view-status-cont">
+                                <h3>&#9679; {status}</h3>
+                            </div>
                         </div>
                         <div className="box2-right-side">
-                            <button>Edit</button>
-                            <button>Delete</button>
-                            <button>Mark as Paid</button>
+                            <button className='btn btn-edit single-invoice-btn'><h4>Edit</h4></button>
+                            <button className='btn btn-discard single-invoice-btn'><h4>Delete</h4></button>
+                            <button className='btn btn-primary single-invoice-btn'><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>
                         </div>
                     </div>
                     <div className="box3">
