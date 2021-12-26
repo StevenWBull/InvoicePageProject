@@ -67,7 +67,12 @@ export default class InvoicePage extends Component {
 
     renderSingleInvoice = (lvid, e) => {
         const invoice = this.state.invoice.find(obj => obj.lvid === lvid);
-
+        if (!invoice) {
+            // Remove any invoice id from url and render all invoices
+            const removeParam = window.location.pathname
+            window.history.pushState({ path: removeParam }, '', removeParam);
+            return this.renderInvoices();
+        }
         // Add invoice id to url
         const invoiceParam = window.location.pathname + `?invoice=${lvid}`  
         window.history.pushState({ path: invoiceParam }, '', invoiceParam);
