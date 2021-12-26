@@ -53,10 +53,10 @@ export default class SingleInvoiceView extends Component {
                                 <h3>&#9679; {status}</h3>
                             </div>
                         </div>
-                        <div className="box2-right-side">
+                        <div className="box2-right-side" style={status === 'draft' ? {'width': '24%'} : {}}>
                             <button className='btn btn-edit single-invoice-btn' onClick={onClickEditInvoiceForm()}><h4>Edit</h4></button>
                             <button className='btn btn-discard single-invoice-btn' onClick={this.onClickDelete}><h4>Delete</h4></button>
-                            <button className='btn btn-primary single-invoice-btn'><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>
+                            {status !== 'draft' && <button className='btn btn-primary single-invoice-btn'><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>}
                         </div>
                     </div>
                     <div className="box3">
