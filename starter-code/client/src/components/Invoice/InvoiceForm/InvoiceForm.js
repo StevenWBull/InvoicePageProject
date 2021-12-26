@@ -70,7 +70,7 @@ export default class InvoiceForm extends Component {
     }
 
     render() {
-        const { formType, onCLickSaveInvoiceForm } = this.props;
+        const { formType, onCLickSaveInvoiceForm, onCLickDiscardInvoiceForm } = this.props;
         return (
             <section className="invoice-form-section">
                 <div className="invoice-form-cont">
@@ -148,10 +148,10 @@ export default class InvoiceForm extends Component {
                             <button type="button" className="btn btn-add-new-item" onClick={() => this.handleAddItem()}><IconPlus /><h4>Add New Item</h4></button>
                         </div>
                         <div className="button-cont" style={formType === 'save' ? {} : {'justifyContent': 'flex-end'}}>
-                            {formType === 'save' && <button type="button" className="btn btn-discard" onClick={this.props.onCLickDiscardInvoiceForm()}><h4>Discard</h4></button>}
+                            {formType === 'save' && <button type="button" className="btn btn-discard" onClick={onCLickDiscardInvoiceForm()}><h4>Discard</h4></button>}
                             <div className="save-btn-cont">
-                                {formType === 'save' && <button type="button" className="btn btn-save-draft" onClick={onCLickSaveInvoiceForm()}>Save as Draft</button>}
-                                <button type="submit" className="btn btn-primary btn-save">Save & Send</button>
+                                {formType === 'save' ? <button type="button" className="btn btn-save-draft" onClick={onCLickSaveInvoiceForm()}>Save as Draft</button> : <button type="button" className="btn btn-save-draft" onClick={onCLickDiscardInvoiceForm()}>Cancel</button>}
+                                <button type="submit" className="btn btn-primary btn-save"> {formType === 'save' ? 'Save & Send' : 'Save Changes'}</button>
                             </div>
                         </div>
                     </form>

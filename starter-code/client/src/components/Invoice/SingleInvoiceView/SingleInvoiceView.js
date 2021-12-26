@@ -23,7 +23,7 @@ export default class SingleInvoiceView extends Component {
         const { status, id, items, paymentDue, createdDate, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
         return (
             <>
-                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} invoice={singleInvoiceObj} /> }
+                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} invoice={singleInvoiceObj} /> }
                 <section className="single-invoice-page-cont">
                     <div className="box1">
                         <div className="go-back-cont" onClick={goBack()}>

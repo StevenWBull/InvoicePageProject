@@ -110,6 +110,7 @@ export default class InvoicePage extends Component {
                     ? <SingleInvoiceView 
                         key={1}
                         showEditInvoiceForm={this.state.showInvoiceForm}
+                        onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
                         onClickEditInvoiceForm={() => this.showInvoiceForm}
                         onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
                         goBack={() => this.goBack}
