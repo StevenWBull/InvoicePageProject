@@ -42,13 +42,13 @@ const InvoiceService = {
         */})
         return db.raw(getInvoiceQuery);
     },
-    deleteInvoice(db, lvid) {
+    deactivateInvoice(db, lvid) {
         return db 
             .from('leinvoice')
             .where({ 'leinvoiceid': lvid })
             .update({ 'deleted_timestamp': 'NOW()' })
     },
-    deleteItems(db, lvid) {
+    deactivateItems(db, lvid) {
         return db 
             .from('leitem')
             .where({ 'frn_leinvoiceid': lvid })

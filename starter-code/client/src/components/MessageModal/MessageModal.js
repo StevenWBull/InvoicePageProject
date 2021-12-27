@@ -3,7 +3,7 @@ import './MessageModal.css';
 
 export default class MessageModal extends Component {
     render() {
-        const { cancelInvoiceDeletion, onClickDeleteInvoice } = this.props;
+        const { cancelInvoiceDeletion, onClickDeactivateInvoice } = this.props;
         return (
             <div className="modal-overlay" id="modal-overlay">
                 <div className="modal" id="modal">
@@ -11,7 +11,7 @@ export default class MessageModal extends Component {
                     <h4>Are you sure you want to delete this invoice?</h4>
                     <div className="btn-cont">
                         <button className="btn btn-cancel" onClick={cancelInvoiceDeletion()}>Cancel</button>
-                        <button className="btn btn-discard" onClick={onClickDeleteInvoice}>Delete</button>
+                        <button className="btn btn-discard" onClick={onClickDeactivateInvoice}>Delete</button>
                     </div>
                 </div>
             </div>

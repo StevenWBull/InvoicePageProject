@@ -16,7 +16,6 @@ export default class InvoicePage extends Component {
             singleInvoiceView: false,
             singleInvoice: {},
             showInvoiceForm: false,
-            deleteInvoice: 0,
             filterInvoicesBy: ''
         };
     }
@@ -44,8 +43,7 @@ export default class InvoicePage extends Component {
     getInvoices = () => {
         return InvoiceApiService.getInvoiceArray()
             .then(data => {
-                this.setState({ invoice: data });
-                this.setState({ invoiceCount: data.length })
+                this.setState({ invoice: data, invoiceCount: data.length });
                 this.checkURLParams();
                 return data;
             })
@@ -92,16 +90,18 @@ export default class InvoicePage extends Component {
         this.setState({ singleInvoice: invoice, singleInvoiceView: true })
     }
 
-    deleteInvoice = () => {
+    deactivateInvoice = () => {
         const lvid = this.state.singleInvoice.lvid;
-        return InvoiceApiService.deleteInvoice(lvid)
+        return InvoiceApiService.deactivateInvoice(lvid)
             .then(() => {
                 this.removeUrlParams();
+                const newInvoiceArray = this.state.invoice.filter(ele => ele.lvid != lvid);
 
                 this.setState({ 
                     singleInvoice: {}, 
                     singleInvoiceView: false, 
-                    invoice: this.state.invoice.filter(ele => ele.lvid != lvid) 
+                    invoice: newInvoiceArray,
+                    invoiceCount: newInvoiceArray.length
                 });
             })
     }
@@ -141,7 +141,7 @@ export default class InvoicePage extends Component {
                         onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
                         onClickEditInvoiceForm={() => this.showInvoiceForm}
                         onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
-                        onClickDeleteInvoice={() => this.deleteInvoice()}
+                        onClickDeactivateInvoice={() => this.deactivateInvoice()}
                         goBack={() => this.goBack}
                         singleInvoiceObj={this.state.singleInvoice} /> 
                     : <AllInvoiceView 

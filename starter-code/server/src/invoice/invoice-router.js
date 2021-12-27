@@ -6,6 +6,7 @@ const InvoiceService = require('./invoice-service');
 const invoiceRouter = express.Router();
 const jsonBodyParser = bodyParser.json();
 
+// Get all invoices
 invoiceRouter
     .route('/')
     .get((req, res, next) => {
@@ -17,13 +18,17 @@ invoiceRouter
             })
             .catch(next)
     })
-    .delete(jsonBodyParser, (req, res, next) => {
+
+// Deactivate invoice record
+invoiceRouter
+    .route('/deactivate')
+    .patch(jsonBodyParser, (req, res, next) => {
         const db = req.app.get('db');
         const { lvid } = req.body;
 
-        InvoiceService.deleteInvoice(db, lvid)
-            .then(() => InvoiceService.deleteItems(db, lvid))
-            .then(() => res.status(204).end())
+        InvoiceService.deactivateInvoice(db, lvid)
+            .then(() => InvoiceService.deactivateInvoice(db, lvid))
+            .then(() => res.status(201).end())
             .catch(next)
     })
 

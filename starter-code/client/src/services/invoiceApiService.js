@@ -12,12 +12,12 @@ const InvoiceApiService = {
                 console.log(error)
             })
     },
-    deleteInvoice(lvid) {
+    deactivateInvoice(lvid) {
         const payload = JSON.stringify({ lvid: lvid })
         return fetch(
-            `${config.API_ENDPOINT}/invoice`, 
+            `${config.API_ENDPOINT}/invoice/deactivate`, 
             { 
-                method: 'DELETE',
+                method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',
                 },
