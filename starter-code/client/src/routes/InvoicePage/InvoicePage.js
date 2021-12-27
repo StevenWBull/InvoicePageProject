@@ -53,6 +53,10 @@ export default class InvoicePage extends Component {
                 });
                 this.checkURLParams();
                 return data;
+            }).catch(() => {
+                this.setState({ 
+                    initialDataLoaded: true
+                });
             })
     }
 
@@ -79,6 +83,7 @@ export default class InvoicePage extends Component {
                 key={idx}
                 lvid={invoice.lvid}
                 id={invoice.id}
+                paymentDue={invoice.paymentDue}
                 status={invoice.status}
                 total={invoice.total}
                 clientName={invoice.clientName}
@@ -131,8 +136,13 @@ export default class InvoicePage extends Component {
         return this.setState({ showInvoiceForm: false });
     }
 
-    saveInvoiceForm = () => {
-        return this.setState({ showInvoiceForm: false });
+    saveInvoiceForm = (newInvoiceArr) => {
+        return this.setState({ 
+            showInvoiceForm: false,
+            formData: {},
+            invalidForm: false,
+            invoice: newInvoiceArr
+        });
     }
 
     onFilterSelect = (e) => {
@@ -178,11 +188,11 @@ export default class InvoicePage extends Component {
             }
         }
         const formIsValid = saveType === 'save' ? this.checkIfFormValid(dataObj) : true;
-        dataObj['saveType'] = saveType
+        dataObj['saveType'] = saveType;
 
         if (formIsValid)
-            return InvoiceApiService.insertNewInvoice(dataObj).then(() => {
-                return this.saveInvoiceForm();
+            return InvoiceApiService.insertNewInvoice(dataObj).then((newInvoiceArr) => {
+                return this.saveInvoiceForm(newInvoiceArr);
             })
     }
 

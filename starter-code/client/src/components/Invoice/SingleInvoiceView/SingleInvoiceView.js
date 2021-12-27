@@ -26,8 +26,8 @@ export default class SingleInvoiceView extends Component {
                 <div className="item-cont">
                     <h3 className="name">{item.name}</h3>
                     <h3 className="quantity">{item.quantity}</h3>
-                    <h3 className="price">$ {item.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
-                    <h3 className="total">$ {item.total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h3>
+                    <h3 className="price">$ {item.price ? item.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</h3>
+                    <h3 className="total">$ {item.total ? item.total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</h3>
                 </div>
         ))
         return items;
@@ -111,7 +111,7 @@ export default class SingleInvoiceView extends Component {
                                 </div>
                                 <div className="invoice-total">
                                     <h3>Amount Due</h3>
-                                    <h1>$ {total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</h1>
+                                    <h1>$ {total ? total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</h1>
                                 </div>
                             </div>
                         </div>

@@ -53,6 +53,66 @@ const InvoiceService = {
             .from('leitem')
             .where({ 'frn_leinvoiceid': lvid })
             .update({ 'deleted_timestamp': 'NOW()' })
+    },
+    createInvoiceId(db, charLength, numLength) {
+        if (typeof charLength !== 'number' || typeof numLength !== 'number')
+            throw Error('Two numbers must be given to .createInvoiceId() method')
+
+        const totalLength = charLength + numLength;
+        const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        let newId = '';
+        for (let i = 0; i < totalLength; i++) {
+            if (i < charLength)
+                newId += upperAlphabet.charAt(Math.floor(Math.random() * upperAlphabet.length))
+            else
+                newId += Math.floor(Math.random() * 10);
+        }
+        
+        return db
+            .select('*')
+            .from('leinvoice')
+            .where({ 'id': newId })
+            .then((data) => {
+                if (!data.length) {
+                    return newId;
+                }
+                else
+                    return this.createInvoiceId(db, charLength, numLength)
+            })
+    },
+    checkIfLskinExits(db, lskinObj) {
+        return db
+            .select('lskinid')
+            .from('lskin')
+            .where(lskinObj)
+            .then((data) => data.length ? data[0].lskinid : 0)
+    },
+    insertNewLskin(db, lskinObj) {
+        return db
+            .insert(lskinObj, 'lskinid')
+            .returning('*')
+            .into('lskin')
+            .then((data) => data[0].lskinid)
+    },
+    insertNewClient(db, clientObj) {
+        return db
+            .insert(clientObj, 'leclientid')
+            .returning('*')
+            .into('leclient')
+            .then((data) => data[0].leclientid)
+    },
+    insertNewInvoice(db, invoiceObj) {
+        return db
+            .insert(invoiceObj, 'leinvoiceid')
+            .returning('*')
+            .into('leinvoice')
+            .then((data) => data[0].leinvoiceid)
+    },
+    insertNewItems(db, itemObj) {
+        return db
+            .insert(itemObj)
+            .into('leitem')
     }
 }
 

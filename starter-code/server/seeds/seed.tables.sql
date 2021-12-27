@@ -5,7 +5,7 @@
 /* 
     CREATE TABLE lskin (
         lskinid SERIAL not null primary key,
-        refname VARCHAR not NULL,
+        refname VARCHAR,
         street VARCHAR not null,
         city VARCHAR not null,
         postcode VARCHAR not null,
