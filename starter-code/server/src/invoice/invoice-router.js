@@ -104,8 +104,8 @@ invoiceRouter
 
         const invoiceObj = {
             'id': newId,
-            'created_timestamp': issueDate ? db.raw(`TO_TIMESTAMP(${issueDate}, 'DD Mon YYYY')`) : db.raw('NOW()'),
-            'payment_due': issueDate ? db.raw(`TO_TIMESTAMP(${issueDate}, 'DD Mon YYYY') + interval '${paymentTerms} day'`) : db.raw(`NOW() + interval '${Number(paymentTerms)} day'`),
+            'created_timestamp': issueDate ? db.raw(`TO_TIMESTAMP('${issueDate}', 'DD Mon YYYY')`) : db.raw('NOW()'),
+            'payment_due': issueDate ? db.raw(`TO_TIMESTAMP('${issueDate}', 'DD Mon YYYY') + interval '${paymentTerms} day'`) : db.raw(`NOW() + interval '${Number(paymentTerms)} day'`),
             'description': projectDescription,
             'payment_terms': Number(paymentTerms),
             'status': saveType === 'save' ? 'pending' : 'draft',

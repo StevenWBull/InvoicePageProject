@@ -133,7 +133,11 @@ export default class InvoicePage extends Component {
     }
 
     discardInvoiceForm = () => {
-        return this.setState({ showInvoiceForm: false });
+        return this.setState({ 
+            showInvoiceForm: false,
+            formData: {},
+            invalidForm: false
+        });
     }
 
     saveInvoiceForm = (newInvoiceArr) => {
@@ -152,7 +156,7 @@ export default class InvoicePage extends Component {
 
     checkIfFormValid = (dataObj) => {
         const currFormValuesArr = Object.values(dataObj);
-
+        console.log(currFormValuesArr)
         // Check that there are no empty values in object or in item array, make sure item array has atleast one item
         if (currFormValuesArr.some(item => !item) || (dataObj.items.some(item => !item) && dataObj.items.length > 0))
             return this.setState({
@@ -184,13 +188,15 @@ export default class InvoicePage extends Component {
                 }
             }
             else {
-                dataObj[inputs[i].name] = inputs[i].value
+                if (inputs[i].name)
+                    dataObj[inputs[i].name] = inputs[i].value
             }
         }
         const formIsValid = saveType === 'save' ? this.checkIfFormValid(dataObj) : true;
         dataObj['saveType'] = saveType;
 
-        if (formIsValid)
+        console.log(saveType)
+        if (formIsValid && saveType !== 'save-edit')
             return InvoiceApiService.insertNewInvoice(dataObj).then((newInvoiceArr) => {
                 return this.saveInvoiceForm(newInvoiceArr);
             })
@@ -206,7 +212,7 @@ export default class InvoicePage extends Component {
                         showEditInvoiceForm={this.state.showInvoiceForm}
                         onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
                         onClickEditInvoiceForm={() => this.showInvoiceForm}
-                        onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
+                        onSaveFormSubmit={() => this.onSaveFormSubmit}
                         onClickDeactivateInvoice={() => this.deactivateInvoice()}
                         goBack={() => this.goBack}
                         singleInvoiceObj={this.state.singleInvoice} /> 

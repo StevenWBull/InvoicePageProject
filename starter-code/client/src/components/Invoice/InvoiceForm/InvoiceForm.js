@@ -156,7 +156,7 @@ export default class InvoiceForm extends Component {
                             {formType === 'save' && <button type="button" className="btn btn-discard" onClick={onCLickDiscardInvoiceForm()}><h4>Discard</h4></button>}
                             <div className="save-btn-cont">
                                 {formType === 'save' ? <button type="submit" id="save-draft" className="btn btn-save-draft">Save as Draft</button> : <button type="button" className="btn btn-save-draft" onClick={onCLickDiscardInvoiceForm()}>Cancel</button>}
-                                <button type="submit" id="save" className="btn btn-primary btn-save"> {formType === 'save' ? 'Save & Send' : 'Save Changes'}</button>
+                                <button type="submit" id={formType === 'save' ? 'save' : 'save-edit' } className="btn btn-primary btn-save"> {formType === 'save' ? 'Save & Send' : 'Save Changes'}</button>
                             </div>
                         </div>
                     </form>
