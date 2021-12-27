@@ -13,7 +13,7 @@ const InvoiceApiService = {
             })
     },
     deactivateInvoice(lvid) {
-        const payload = JSON.stringify({ lvid: lvid })
+        const payload = JSON.stringify({ lvid })
         return fetch(
             `${config.API_ENDPOINT}/invoice/deactivate`, 
             { 
@@ -32,6 +32,27 @@ const InvoiceApiService = {
             .catch(error => {
                 console.log(error)
             })
+    },
+    insertNewInvoice(invoiceData) {
+        const payload = JSON.stringify({ invoiceData })
+        return fetch(
+            `${config.API_ENDPOINT}/invoice/newInvoice`, 
+            { 
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: payload 
+            }
+        )
+            .then(res => 
+                (!res.ok)
+                    ? res.json().then(e => Promise.reject(e))
+                    : res.json()
+                )
+            .catch(error => {
+                console.log(error)
+            })        
     }
 }
 

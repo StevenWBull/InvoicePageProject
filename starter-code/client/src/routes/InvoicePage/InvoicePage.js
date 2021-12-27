@@ -11,17 +11,16 @@ export default class InvoicePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            initialDataLoaded: false,
             invoice: [],
             invoiceCount: 0,
             singleInvoiceView: false,
             singleInvoice: {},
             showInvoiceForm: false,
-            filterInvoicesBy: ''
+            filterInvoicesBy: '',
+            invalidForm: false,
+            formData: {}
         };
-    }
-
-    componentDidMount() {
-        this.getInvoices();
     }
 
     checkURLParams = () => {
@@ -40,10 +39,18 @@ export default class InvoicePage extends Component {
         return window.history.pushState({ path: removeParam }, '', removeParam);
     }
 
+    componentWillMount = () => {
+        this.getInvoices();
+    }
+
     getInvoices = () => {
         return InvoiceApiService.getInvoiceArray()
             .then(data => {
-                this.setState({ invoice: data, invoiceCount: data.length });
+                this.setState({ 
+                    invoice: data, 
+                    invoiceCount: data.length,
+                    initialDataLoaded: true
+                });
                 this.checkURLParams();
                 return data;
             })
@@ -59,6 +66,10 @@ export default class InvoicePage extends Component {
     renderInvoices = () => {
         const invoices = this.filterInvoices(this.state.invoice);
         console.log(invoices)
+
+        // Render a loader here
+        if (!this.state.initialDataLoaded) 
+            return null;
 
         if (!invoices.length)
             return <EmptyInvoiceView />
@@ -126,8 +137,53 @@ export default class InvoicePage extends Component {
 
     onFilterSelect = (e) => {
         const filterBy = e.target.value;
-        console.log(filterBy)
         this.setState({ filterInvoicesBy: filterBy })
+    }
+
+    checkIfFormValid = (dataObj) => {
+        const currFormValuesArr = Object.values(dataObj);
+
+        // Check that there are no empty values in object or in item array, make sure item array has atleast one item
+        if (currFormValuesArr.some(item => !item) || (dataObj.items.some(item => !item) && dataObj.items.length > 0))
+            return this.setState({
+                formData: dataObj,
+                invalidForm: true
+            })
+        else
+            return true;
+    }
+
+    onSaveFormSubmit = (e) => {
+        e.preventDefault();
+        const saveType = e.nativeEvent.submitter.id; // Possible values are 'save' || 'save-draft'
+        const inputs = e.target.elements;
+        const dataObj = { items: [] };
+        const itemIdentifier = ['itemName', 'quantity', 'price', 'quantity']
+
+        for (let i = 0; i < inputs.length; i++) {
+            const itemNameCheck = inputs[i].name.slice(0, -1);
+            if (itemIdentifier.includes(itemNameCheck)) {
+                const itemIdx = inputs[i].name.slice(-1);
+                const currEleIdx = dataObj.items.findIndex(ele => ele.liid === Number(itemIdx))
+
+                if (currEleIdx >= 0)
+                    dataObj.items[currEleIdx][itemNameCheck] = inputs[i].value;
+                else {
+                    dataObj.items[dataObj.items.length] = { liid: Number(itemIdx) }
+                    dataObj.items[dataObj.items.length-1][itemNameCheck] = inputs[i].value;
+                }
+            }
+            else {
+                dataObj[inputs[i].name] = inputs[i].value
+            }
+        }
+        const formIsValid = saveType === 'save' ? this.checkIfFormValid(dataObj) : true;
+        dataObj['saveType'] = saveType
+
+        if (formIsValid)
+            return InvoiceApiService.insertNewInvoice(dataObj).then(() => {
+                return this.saveInvoiceForm();
+            })
     }
 
     render() {
@@ -150,9 +206,11 @@ export default class InvoicePage extends Component {
                         showCreateInvoiceForm={this.state.showInvoiceForm} 
                         onClickCreateInvoiceForm={() => this.showInvoiceForm} 
                         onCLickDiscardInvoiceForm={() => this.discardInvoiceForm} 
-                        onCLickSaveInvoiceForm={() => this.saveInvoiceForm}
+                        onSaveFormSubmit={() => this.onSaveFormSubmit}
                         renderInvoices={this.renderInvoices()}
-                        invoiceCount={this.state.invoiceCount} /> }
+                        invoiceCount={this.state.invoiceCount}
+                        formData={this.state.formData}
+                        invalidForm={this.state.invalidForm} /> }
             </>
         );
     }

@@ -32,4 +32,18 @@ invoiceRouter
             .catch(next)
     })
 
+// Deactivate invoice record
+invoiceRouter
+    .route('/newInvoice')
+    .post(jsonBodyParser, (req, res, next) => {
+        const db = req.app.get('db');
+        const { invoiceData } = req.body;
+
+        res.status(201).end()
+        // InvoiceService.deactivateInvoice(db, lvid)
+        //     .then(() => InvoiceService.deactivateInvoice(db, lvid))
+        //     .then(() => res.status(201).end())
+        //     .catch(next)
+    })
+
 module.exports = invoiceRouter;

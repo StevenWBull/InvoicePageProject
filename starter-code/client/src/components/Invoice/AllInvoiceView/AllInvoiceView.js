@@ -6,10 +6,10 @@ import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
     render() {
-        const { showCreateInvoiceForm, onFilterSelect, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onCLickSaveInvoiceForm, renderInvoices, invoiceCount } = this.props;
+        const { showCreateInvoiceForm, onFilterSelect, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, renderInvoices, invoiceCount, formData, invalidForm } = this.props;
         return (
             <>
-                { showCreateInvoiceForm && <InvoiceForm formType="save" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onCLickSaveInvoiceForm={onCLickSaveInvoiceForm} /> }
+                { showCreateInvoiceForm && <InvoiceForm formType="save" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} formData={formData} invalidForm={invalidForm}  /> }
                 <section className="invoice-page-cont">
                     <div className="invoice-title-cont">
                         <div>
