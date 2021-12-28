@@ -6,17 +6,22 @@ const InvoiceService = require('./invoice-service');
 const invoiceRouter = express.Router();
 const jsonBodyParser = bodyParser.json();
 
-const serializeInvoiceData = invoice => {
+const serializeInvoiceData = (invoice, edit=false) => {
     const itemArr = invoice.items.map(item => {
-        console.log(item)
-        return {
+        const sanitizedItem = {
             name: xss(item.itemName.trim()),
             quantity: xss(item.quantity.trim()),
-            price: Number(xss(item.price.trim())).toFixed(2),
-            total: Number(xss(item.quantity.trim())) * Number(xss(item.price.trim()))
+            price: Number(xss(item.price.trim().replace(/,/g,''))).toFixed(2),
+            total: Number(xss(item.quantity.trim())) * Number(xss(item.price.trim().replace(/,/g,'')))
         };
+
+        if (edit) {
+            sanitizedItem.liid = Number(item.liid);
+        }
+
+        return sanitizedItem;
     });
-    return {
+    const sanitizedDataObj = {
         items: itemArr, 
         streetAddress: xss(invoice.streetAddress.trim()), 
         city: xss(invoice.city.trim()), 
@@ -33,6 +38,14 @@ const serializeInvoiceData = invoice => {
         saveType: invoice.saveType, 
         issueDate: xss(invoice.issueDate.trim())
     };
+
+    if (edit) {
+        sanitizedDataObj['lsid'] = invoice.lsid;
+        sanitizedDataObj['lcid'] = invoice.lcid;
+        sanitizedDataObj['lvid'] = invoice.lvid;
+    }
+
+    return sanitizedDataObj;
 }
 
 // Get all invoices
@@ -61,7 +74,7 @@ invoiceRouter
             .catch(next);
     });
 
-// Deactivate invoice record
+// Create invoice record
 invoiceRouter
     .route('/newInvoice')
     .post(jsonBodyParser, async(req, res, next) => {
@@ -125,6 +138,74 @@ invoiceRouter
             };
 
             await InvoiceService.insertNewItems(db, itemObj);
+        }
+
+        InvoiceService.getAllInvoices(db)
+            .then(invoices => {
+                const invoiceArray = invoices.rows.map(invoice => invoice.json_build_object);
+                res.status(201).json(invoiceArray);
+            })
+            .catch(next);
+    })
+
+invoiceRouter
+    .route('/updateInvoice')
+    .patch(jsonBodyParser, async(req, res, next) => {
+        const db = req.app.get('db');
+        const { invoiceData } = req.body;
+        const sanitizedInvoiceData = serializeInvoiceData(invoiceData, true);
+        const { lsid, lcid, lvid, items, streetAddress, city, postCode, country, clientCountry, clientStreetAddress, clientPostalCode, clientCity, clientEmail, clientName, paymentTerms, projectDescription, saveType, issueDate} = sanitizedInvoiceData;
+
+        const lskinObj = {
+            'lsid': lsid,
+            'street': streetAddress,
+            'city': city,
+            'postcode': postCode,
+            'country': country
+        };
+        
+        const clientNameArr = clientName.split(' ');
+        const clientFirstName = clientNameArr[0] || '';
+        const clientLastName = clientNameArr[1] || '';
+        const clientObj = {
+            'lcid': lcid,
+            'first_name': clientFirstName,
+            'last_name': clientLastName,
+            'email': clientEmail,
+            'street': clientStreetAddress,
+            'city': clientCity,
+            'postcode': clientPostalCode,
+            'country': clientCountry
+        };
+
+        const invoiceObj = {
+            'lvid': lvid,
+            'created_timestamp': issueDate ? db.raw(`TO_TIMESTAMP('${issueDate}', 'DD Mon YYYY')`) : db.raw('NOW()'),
+            'payment_due': issueDate ? db.raw(`TO_TIMESTAMP('${issueDate}', 'DD Mon YYYY') + interval '${paymentTerms} day'`) : db.raw(`NOW() + interval '${Number(paymentTerms)} day'`),
+            'description': projectDescription,
+            'payment_terms': Number(paymentTerms),
+            'status': 'pending'
+        };
+
+        await InvoiceService.updateLskin(db, lskinObj);
+        await InvoiceService.updateClient(db, clientObj);
+        await InvoiceService.updateInvoice(db, invoiceObj);
+        
+        for (let idx in items) {
+            const { liid, name, quantity, price } = items[idx];
+            const itemObj = {
+                'liid': liid,
+                'refname': name,
+                'quantity': Number(quantity),
+                'price': price
+            };
+            if (liid <= 0) {
+                delete itemObj.liid;
+                itemObj['frn_leinvoiceid'] = lvid;
+                await InvoiceService.insertNewItems(db, itemObj);
+            }
+            else
+                await InvoiceService.updateItems(db, itemObj);
         }
 
         InvoiceService.getAllInvoices(db)

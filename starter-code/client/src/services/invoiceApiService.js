@@ -54,12 +54,12 @@ const InvoiceApiService = {
                 console.log(error)
             })        
     },
-    patchInvoice(invoiceData) {
+    updateInvoice(invoiceData) {
         const payload = JSON.stringify({ invoiceData })
         return fetch(
             `${config.API_ENDPOINT}/invoice/updateInvoice`, 
             { 
-                method: 'POST',
+                method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',
                 },

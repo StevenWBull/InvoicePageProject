@@ -113,6 +113,42 @@ const InvoiceService = {
         return db
             .insert(itemObj)
             .into('leitem')
+    },
+    updateLskin(db, lskinObj) {
+        const lsid = lskinObj.lsid;
+        delete lskinObj.lsid;
+        
+        return db
+            .from('lskin')
+            .where({ 'lskinid': lsid })
+            .update(lskinObj)
+    },
+    updateClient(db, clientObj) {
+        const lcid = clientObj.lcid;
+        delete clientObj.lcid;
+
+        return db
+            .from('leclient')
+            .where({ 'leclientid': lcid })
+            .update(clientObj)
+    },
+    updateInvoice(db, invoiceObj) {
+        const lvid = invoiceObj.lvid;
+        delete invoiceObj.lvid;
+
+        return db
+            .from('leinvoice')
+            .where({ 'leinvoiceid': lvid })
+            .update(invoiceObj)
+    },
+    updateItems(db, itemObj) {
+        const liid = itemObj.liid;
+        delete itemObj.liid;
+
+        return db
+            .from('leitem')
+            .where({ 'leitemid': liid })
+            .update(itemObj)
     }
 }
 

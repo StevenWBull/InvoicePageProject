@@ -15,12 +15,15 @@ export default class InvoiceForm extends Component {
             </div>
         );
         if (itemArr.length) {
-            items = itemArr.map((item, idx) => {
+            let negativeCount = -1
+            items = itemArr.map((item) => {
+                const liid = 'liid' in item ? item. liid : negativeCount;
+                negativeCount--;
                 return (
-                    <div className="column-flex-item" key={idx}>
-                        <input className="itemName" name={'itemName' + idx} defaultValue={item.name || item.itemName}></input>
-                        <input className="quantity" name={'quantity' + idx} defaultValue={item.quantity}></input>
-                        <input className="price" name={'price' + idx} defaultValue={Number(item.price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}></input>
+                    <div className="column-flex-item" key={liid}>
+                        <input className="itemName" id={liid} name={'itemName'} defaultValue={item.name || item.itemName}></input>
+                        <input className="quantity" id={liid} name={'quantity'} defaultValue={item.quantity}></input>
+                        <input className="price" id={liid} name={'price'} defaultValue={Number(item.price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}></input>
                         <span className="total">{item.total ? item.total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</span>
                         <span className="trashcan"><TrashCan /></span>
                     </div>

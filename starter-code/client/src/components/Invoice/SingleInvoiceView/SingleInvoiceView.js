@@ -22,7 +22,6 @@ export default class SingleInvoiceView extends Component {
     }
 
     renderItems = (items) => {
-        console.log('renderItems fn', items)
         const loadItems = items.map((item, idx) => (
                 <div className="item-cont">
                     <h3 className="name">{item.name}</h3>

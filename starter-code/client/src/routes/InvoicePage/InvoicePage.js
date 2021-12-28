@@ -27,8 +27,8 @@ export default class InvoicePage extends Component {
     checkURLParams = () => {
         const url = window.location.href;
         const param = 'invoice';
-        let regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
+        const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)')
+        const results = regex.exec(url);
         const lvid = !results || !results[2] ? '' : decodeURIComponent(results[2].replace(/\+/g, ' '));
         
         if (lvid)
@@ -157,12 +157,13 @@ export default class InvoicePage extends Component {
         });
     }
 
-    saveInvoiceForm = (newInvoiceArr) => {
+    saveInvoiceForm = (newInvoiceArr, singleEdit=false) => {
         return this.setState({ 
             showInvoiceForm: false,
             formData: {},
             invalidForm: false,
-            invoice: newInvoiceArr
+            invoice: newInvoiceArr,
+            singleInvoice: singleEdit ? newInvoiceArr.find(obj => obj.lvid === this.state.singleInvoice.lvid) : {},
         });
     }
 
@@ -191,16 +192,16 @@ export default class InvoicePage extends Component {
         const itemIdentifier = ['itemName', 'quantity', 'price', 'quantity']
 
         for (let i = 0; i < inputs.length; i++) {
-            const itemNameCheck = inputs[i].name.slice(0, -1);
-            if (itemIdentifier.includes(itemNameCheck)) {
-                const itemIdx = inputs[i].name.slice(-1);
-                const currEleIdx = dataObj.items.findIndex(ele => ele.liid === Number(itemIdx))
+            const itemName = inputs[i].name
+            if (itemIdentifier.includes(itemName)) {
+                const liid = inputs[i].id;
+                const currEleIdx = dataObj.items.findIndex(ele => ele.liid === Number(liid))
 
                 if (currEleIdx >= 0)
-                    dataObj.items[currEleIdx][itemNameCheck] = inputs[i].value;
+                    dataObj.items[currEleIdx][itemName] = inputs[i].value;
                 else {
-                    dataObj.items[dataObj.items.length] = { liid: Number(itemIdx) }
-                    dataObj.items[dataObj.items.length-1][itemNameCheck] = inputs[i].value;
+                    dataObj.items[dataObj.items.length] = { liid: Number(liid) }
+                    dataObj.items[dataObj.items.length-1][itemName] = inputs[i].value;
                 }
             }
             else {
@@ -215,6 +216,16 @@ export default class InvoicePage extends Component {
             return InvoiceApiService.insertNewInvoice(dataObj).then((newInvoiceArr) => {
                 return this.saveInvoiceForm(newInvoiceArr);
             })
+
+        if (formIsValid && saveType === 'save-edit')
+            console.log(dataObj)
+            dataObj['lsid'] = this.state.singleInvoice.lsid;
+            dataObj['lcid'] = this.state.singleInvoice.lcid;
+            dataObj['lvid'] = this.state.singleInvoice.lvid;
+
+            return InvoiceApiService.updateInvoice(dataObj).then((newInvoiceArr) => {
+                return this.saveInvoiceForm(newInvoiceArr, true);
+            }) 
     }
 
     handleAddItem = () => {
