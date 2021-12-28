@@ -1,32 +1,9 @@
 import React, { Component } from 'react';
 import { ReactComponent as TrashCan } from '../../../assets/icon-delete.svg';
 import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
-import InvoiceApiService from '../../../services/invoiceApiService';
 import './InvoiceForm.css';
 
 export default class InvoiceForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            addNewItem: false
-        }
-    }
-
-    // componentDidMount() {
-    //     console.log('Did mount')
-    //     const formData = JSON.parse(localStorage.getItem('formData'));
-    //     console.log('form data', formData)
-    //     this.setState({
-    //         formData: formData
-    //     })
-    // }
-
-    // componentWillUpdate() {
-    //     // Will need to add an onchange handler to save form data as the user is typing
-    //     localStorage.setItem('formData', JSON.stringify(this.state.formData));
-    //     console.log(this.state.formData)
-    // }
-
     renderItems = (itemArr=[]) => {
         let items = (
             <div className="column-flex-item">
@@ -39,7 +16,6 @@ export default class InvoiceForm extends Component {
         );
         if (itemArr.length) {
             items = itemArr.map((item, idx) => {
-                console.log(item.name)
                 return (
                     <div className="column-flex-item" key={idx}>
                         <input className="itemName" name={'itemName' + idx} defaultValue={item.name || item.itemName}></input>
@@ -52,29 +28,12 @@ export default class InvoiceForm extends Component {
             })
         }
         
+
         return items;
     }
 
-    handleAddItem = () => {
-        this.setState({ addNewItem: true });
-    }
-
-    addItem = () => {
-        const item = (
-            <div className="column-flex-item">
-                <input className="itemName" name="itemName" defaultValue=""></input>
-                <input className="quantity" name="quantity" defaultValue=""></input>
-                <input className="price" name="price" defaultValue=""></input>
-                <span className="total">0.00</span>
-                <span className="trashcan"><TrashCan /></span>
-            </div>
-        );
-
-        return item;
-    }
-
     render() {
-        const { formType, onCLickDiscardInvoiceForm, onSaveFormSubmit, invalidForm, formData } = this.props;
+        const { formType, onCLickDiscardInvoiceForm, onSaveFormSubmit, invalidForm, formData, handleAddItem, itemArr } = this.props;
         return (
             <section className="invoice-form-section">
                 <div className="invoice-form-cont">
@@ -146,10 +105,9 @@ export default class InvoiceForm extends Component {
                                     <span className="total">Total</span>
                                     <span className="trashcan"></span>
                                 </div>
-                                {formType === 'save' ? Object.keys(formData).length ? this.renderItems(formData.items) : this.renderItems() : this.renderItems(this.props.invoice.items)}
-                                {this.state.addNewItem ? this.addItem : ''}
+                                {formType === 'save' ? Object.keys(formData).length ? this.renderItems(formData.items) :  this.renderItems(itemArr) : this.renderItems(itemArr)}
                             </div>
-                            <button type="button" className="btn btn-add-new-item" onClick={() => this.handleAddItem()}><IconPlus /><h4>Add New Item</h4></button>
+                            <button type="button" className="btn btn-add-new-item" onClick={handleAddItem()}><IconPlus /><h4>Add New Item</h4></button>
                         </div>
                         {invalidForm && <h3 style={{'color': 'red', 'textAlign': 'center'}}>* Please be sure to fill out all fields and add atleast one item before saving!</h3>}
                         <div className="button-cont" style={formType === 'save' ? {} : {'justifyContent': 'flex-end'}}>

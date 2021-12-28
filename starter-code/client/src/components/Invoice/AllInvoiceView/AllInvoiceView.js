@@ -5,10 +5,10 @@ import './AllInvoiceView.css'
 
 export default class AllInvoiceView extends Component {
     render() {
-        const { showCreateInvoiceForm, onFilterSelect, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, renderInvoices, invoiceCount, formData, invalidForm } = this.props;
+        const { showCreateInvoiceForm, onFilterSelect, onClickCreateInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, renderInvoices, invoiceCount, formData, invalidForm, itemArr, handleAddItem } = this.props;
         return (
             <>
-                { showCreateInvoiceForm && <InvoiceForm formType="save" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} formData={formData} invalidForm={invalidForm}  /> }
+                { showCreateInvoiceForm && <InvoiceForm formType="save" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} formData={formData} invalidForm={invalidForm} itemArr={itemArr} handleAddItem={handleAddItem}  /> }
                 <section className="invoice-page-cont">
                     <div className="invoice-title-cont">
                         <div>
@@ -19,8 +19,8 @@ export default class AllInvoiceView extends Component {
                         </div>
                         <div className="invoice-filter-btn-cont">
                             <div className="filter-cont">
-                                <select className="filter-dd" onChange={onFilterSelect()}>
-                                    <option selected disabled>Filter by Status </option>
+                                <select className="filter-dd" value="default" onChange={onFilterSelect()}>
+                                    <option value="default" disabled>Filter by Status </option>
                                     <option value="">No Filter</option>
                                     <option value="paid">Paid</option>
                                     <option value="pending">Pending</option>

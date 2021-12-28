@@ -19,7 +19,8 @@ export default class InvoicePage extends Component {
             showInvoiceForm: false,
             filterInvoicesBy: '',
             invalidForm: false,
-            formData: {}
+            formData: {},
+            itemArr: []
         };
     }
 
@@ -69,7 +70,6 @@ export default class InvoicePage extends Component {
 
     renderInvoices = () => {
         const invoices = this.filterInvoices(this.state.invoice);
-        console.log(invoices)
 
         // Render a loader here
         if (!this.state.initialDataLoaded) 
@@ -100,10 +100,18 @@ export default class InvoicePage extends Component {
             this.removeUrlParams();
             return this.renderInvoices();
         }
+
+        // create new map of invoice.items array to avoid state mutation
+        const newItemArr = invoice.items.map(item => item)
+        
         // Add invoice id to url
         const invoiceParam = window.location.pathname + `?invoice=${lvid}`  
         window.history.pushState({ path: invoiceParam }, '', invoiceParam);
-        this.setState({ singleInvoice: invoice, singleInvoiceView: true })
+        this.setState({ 
+            singleInvoice: invoice, 
+            singleInvoiceView: true,
+            itemArr: !this.state.itemArr.length ? newItemArr : this.state.itemArr
+        })
     }
 
     deactivateInvoice = () => {
@@ -117,7 +125,8 @@ export default class InvoicePage extends Component {
                     singleInvoice: {}, 
                     singleInvoiceView: false, 
                     invoice: newInvoiceArray,
-                    invoiceCount: newInvoiceArray.length
+                    invoiceCount: newInvoiceArray.length,
+                    itemArr: []
                 });
             })
     }
@@ -125,7 +134,11 @@ export default class InvoicePage extends Component {
     goBack = () => {
         // Remove any invoice id from url
         this.removeUrlParams();
-        this.setState({ singleInvoice: {}, singleInvoiceView: false })
+        this.setState({ 
+            singleInvoice: {}, 
+            singleInvoiceView: false,
+            itemArr: []
+        })
     }
 
     showInvoiceForm = () => {
@@ -133,10 +146,14 @@ export default class InvoicePage extends Component {
     }
 
     discardInvoiceForm = () => {
+        const itemArr = Object.keys(this.state.singleInvoice).length 
+            ? this.state.singleInvoice.items.map(item=>item) 
+            : [];
         return this.setState({ 
             showInvoiceForm: false,
             formData: {},
-            invalidForm: false
+            invalidForm: false,
+            itemArr: itemArr
         });
     }
 
@@ -156,7 +173,6 @@ export default class InvoicePage extends Component {
 
     checkIfFormValid = (dataObj) => {
         const currFormValuesArr = Object.values(dataObj);
-        console.log(currFormValuesArr)
         // Check that there are no empty values in object or in item array, make sure item array has atleast one item
         if (currFormValuesArr.some(item => !item) || (dataObj.items.some(item => !item) && dataObj.items.length > 0))
             return this.setState({
@@ -169,7 +185,7 @@ export default class InvoicePage extends Component {
 
     onSaveFormSubmit = (e) => {
         e.preventDefault();
-        const saveType = e.nativeEvent.submitter.id; // Possible values are 'save' || 'save-draft'
+        const saveType = e.nativeEvent.submitter.id; // Possible values are 'save' || 'save-draft' || 'save-edit'
         const inputs = e.target.elements;
         const dataObj = { items: [] };
         const itemIdentifier = ['itemName', 'quantity', 'price', 'quantity']
@@ -192,14 +208,23 @@ export default class InvoicePage extends Component {
                     dataObj[inputs[i].name] = inputs[i].value
             }
         }
-        const formIsValid = saveType === 'save' ? this.checkIfFormValid(dataObj) : true;
+        const formIsValid = saveType === 'save' || saveType === 'save-edit' ? this.checkIfFormValid(dataObj) : true;
         dataObj['saveType'] = saveType;
 
-        console.log(saveType)
         if (formIsValid && saveType !== 'save-edit')
             return InvoiceApiService.insertNewInvoice(dataObj).then((newInvoiceArr) => {
                 return this.saveInvoiceForm(newInvoiceArr);
             })
+    }
+
+    handleAddItem = () => {
+        console.log(this.state.singleInvoice)
+        const newArr = this.state.itemArr;
+        newArr.push({ 'name': '', 'quantity': 1, 'price': 0.00, 'total': 0.00 })
+
+        this.setState({ 
+            itemArr: newArr
+        });
     }
 
     render() {
@@ -215,7 +240,9 @@ export default class InvoicePage extends Component {
                         onSaveFormSubmit={() => this.onSaveFormSubmit}
                         onClickDeactivateInvoice={() => this.deactivateInvoice()}
                         goBack={() => this.goBack}
-                        singleInvoiceObj={this.state.singleInvoice} /> 
+                        singleInvoiceObj={this.state.singleInvoice}
+                        itemArr={this.state.itemArr}
+                        handleAddItem={() => this.handleAddItem} /> 
                     : <AllInvoiceView 
                         key={1}
                         onFilterSelect={() => this.onFilterSelect}
@@ -226,7 +253,9 @@ export default class InvoicePage extends Component {
                         renderInvoices={this.renderInvoices()}
                         invoiceCount={this.state.invoiceCount}
                         formData={this.state.formData}
-                        invalidForm={this.state.invalidForm} /> }
+                        invalidForm={this.state.invalidForm}
+                        itemArr={this.state.itemArr}
+                        handleAddItem={() => this.handleAddItem} /> }
             </>
         );
     }

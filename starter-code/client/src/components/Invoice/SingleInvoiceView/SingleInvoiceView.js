@@ -21,8 +21,9 @@ export default class SingleInvoiceView extends Component {
         this.setState({ showDeletePrompt: false })
     }
 
-    renderItems = (itemArr) => {
-        const items = itemArr.map((item, idx) => (
+    renderItems = (items) => {
+        console.log('renderItems fn', items)
+        const loadItems = items.map((item, idx) => (
                 <div className="item-cont">
                     <h3 className="name">{item.name}</h3>
                     <h3 className="quantity">{item.quantity}</h3>
@@ -30,16 +31,17 @@ export default class SingleInvoiceView extends Component {
                     <h3 className="total">$ {item.total ? item.total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</h3>
                 </div>
         ))
-        return items;
+        return loadItems;
     }
 
     render() {
-        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, onClickDeactivateInvoice, goBack, singleInvoiceObj } = this.props;
+        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, onClickDeactivateInvoice, goBack, singleInvoiceObj, itemArr, handleAddItem } = this.props;
         const { status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
+        console.log(items)
         return (
             <>
-                { this.state.showDeletePrompt && <MessageModal cancelInvoiceDeletion={() => this.cancelInvoiceDeletion} onClickDeactivateInvoice={() => onClickDeactivateInvoice()} />}
-                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} invoice={singleInvoiceObj} /> }
+                { this.state.showDeletePrompt && <MessageModal cancelInvoiceDeletion={() => this.cancelInvoiceDeletion} onClickDeactivateInvoice={() => onClickDeactivateInvoice()}  />}
+                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} invoice={singleInvoiceObj} itemArr={itemArr} handleAddItem={handleAddItem} /> }
                 <section className="single-invoice-page-cont">
                     <div className="box1">
                         <div className="go-back-cont" onClick={goBack()}>

@@ -135,6 +135,10 @@ input:-webkit-autofill:active{
     justify-content: flex-end;
 }
 
+.trashcan {
+    text-align:center;
+}
+
 .trashcan > svg:hover {
     cursor: pointer;
 }
