@@ -3,4 +3,3 @@
 .prettierignore
 node_modules/
 .env
-README.md
