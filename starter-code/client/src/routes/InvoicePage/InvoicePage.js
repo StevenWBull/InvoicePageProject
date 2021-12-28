@@ -173,9 +173,13 @@ export default class InvoicePage extends Component {
     }
 
     checkIfFormValid = (dataObj) => {
+        console.log(dataObj)
         const currFormValuesArr = Object.values(dataObj);
+        console.log(currFormValuesArr)
         // Check that there are no empty values in object or in item array, make sure item array has atleast one item
-        if (currFormValuesArr.some(item => !item) || (dataObj.items.some(item => !item) && dataObj.items.length > 0))
+        console.log(!currFormValuesArr.every(item => !item))
+        console.log(!dataObj.items.every(item => item) && !dataObj.items.length > 0)
+        if (!currFormValuesArr.every(item => item) || (!dataObj.items.every(item => Object.values(item).every(value => value)) && !dataObj.items.length > 0))
             return this.setState({
                 formData: dataObj,
                 invalidForm: true
@@ -217,7 +221,7 @@ export default class InvoicePage extends Component {
                 return this.saveInvoiceForm(newInvoiceArr);
             })
 
-        if (formIsValid && saveType === 'save-edit')
+        if (formIsValid && saveType === 'save-edit') {
             console.log(dataObj)
             dataObj['lsid'] = this.state.singleInvoice.lsid;
             dataObj['lcid'] = this.state.singleInvoice.lcid;
@@ -226,10 +230,10 @@ export default class InvoicePage extends Component {
             return InvoiceApiService.updateInvoice(dataObj).then((newInvoiceArr) => {
                 return this.saveInvoiceForm(newInvoiceArr, true);
             }) 
+        }
     }
 
     handleAddItem = () => {
-        console.log(this.state.singleInvoice)
         const newArr = this.state.itemArr;
         newArr.push({ 'name': '', 'quantity': 1, 'price': 0.00, 'total': 0.00 })
 
