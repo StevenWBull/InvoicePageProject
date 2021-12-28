@@ -34,13 +34,13 @@ export default class SingleInvoiceView extends Component {
     }
 
     render() {
-        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, onClickDeactivateInvoice, goBack, singleInvoiceObj, itemArr, handleAddItem } = this.props;
+        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, onClickDeactivateInvoice, goBack, singleInvoiceObj, itemArr, handleAddItem, invalidForm } = this.props;
         const { status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
-        console.log(items)
+        
         return (
             <>
                 { this.state.showDeletePrompt && <MessageModal cancelInvoiceDeletion={() => this.cancelInvoiceDeletion} onClickDeactivateInvoice={() => onClickDeactivateInvoice()}  />}
-                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} invoice={singleInvoiceObj} itemArr={itemArr} handleAddItem={handleAddItem} /> }
+                { showEditInvoiceForm && <InvoiceForm formType="edit" onCLickDiscardInvoiceForm={onCLickDiscardInvoiceForm} onSaveFormSubmit={onSaveFormSubmit} invoice={singleInvoiceObj} invalidForm={invalidForm} itemArr={itemArr} handleAddItem={handleAddItem} /> }
                 <section className="single-invoice-page-cont">
                     <div className="box1">
                         <div className="go-back-cont" onClick={goBack()}>

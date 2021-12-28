@@ -38,7 +38,8 @@ const InvoiceService = {
                 inner join lskin ls on ls.lskinid = lc.frn_lskinid
                 left join leitem li on li.frn_leinvoiceid  = lv.leinvoiceid
                 where lv.deleted_timestamp is null
-                group by lv.leinvoiceid, lc.leclientid, ls.lskinid;
+                group by lv.leinvoiceid, lc.leclientid, ls.lskinid
+                order by lv.payment_due desc;
         */})
         return db.raw(getInvoiceQuery);
     },

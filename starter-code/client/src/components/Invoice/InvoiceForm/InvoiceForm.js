@@ -4,27 +4,28 @@ import { ReactComponent as IconPlus } from '../../../assets/icon-plus.svg';
 import './InvoiceForm.css';
 
 export default class InvoiceForm extends Component {
-    renderItems = (itemArr=[]) => {
+    renderItems = (itemArr) => {
         let items = (
             <div className="column-flex-item">
                 <input className="itemName" id="-1" name="itemName" defaultValue=""></input>
-                <input className="quantity" id="-1" name="quantity" defaultValue=""></input>
-                <input className="price" id="-1" name="price" defaultValue=""></input>
-                <span className="total">0.00</span>
+                <input className="quantity" id="-1" name="quantity" defaultValue="" type="number"></input>
+                <input className="price" id="-1" name="price" defaultValue="0.00" type="number"></input>
+                <span className="total" defaultValue="0.00"></span>
                 <span className="trashcan"><TrashCan /></span>
             </div>
         );
+
         if (itemArr.length) {
             let negativeCount = -1
             items = itemArr.map((item) => {
-                const liid = 'liid' in item ? item. liid : negativeCount;
+                const liid = 'liid' in item ? item.liid : negativeCount;
                 negativeCount--;
                 return (
                     <div className="column-flex-item" key={liid}>
                         <input className="itemName" id={liid} name={'itemName'} defaultValue={item.name || item.itemName}></input>
-                        <input className="quantity" id={liid} name={'quantity'} defaultValue={item.quantity}></input>
-                        <input className="price" id={liid} name={'price'} defaultValue={Number(item.price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}></input>
-                        <span className="total">{item.total ? item.total.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</span>
+                        <input className="quantity" id={liid} name={'quantity'} defaultValue={item.quantity} type="number"></input>
+                        <input className="price" id={liid} name={'price'} defaultValue={Number(item.price).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} type="number"></input>
+                        <span className="total">{item.total ? Number(item.total).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</span>
                         <span className="trashcan"><TrashCan /></span>
                     </div>
                 )
@@ -37,7 +38,6 @@ export default class InvoiceForm extends Component {
 
     render() {
         const { formType, onCLickDiscardInvoiceForm, onSaveFormSubmit, invalidForm, formData, handleAddItem, itemArr } = this.props;
-        console.log(formData)
         return (
             <section className="invoice-form-section">
                 <div className="invoice-form-cont">
@@ -93,7 +93,7 @@ export default class InvoiceForm extends Component {
                                 </div>
                                 <div className="column-flex right">
                                     <label htmlFor="paymentTerms">Payment Terms</label>
-                                    <input className="paymentTerms" name="paymentTerms" defaultValue={formType === 'edit' ? this.props.invoice.paymentTerms : Object.keys(formData).length ? formData.paymentTerms : ''}></input>
+                                    <input className="paymentTerms" name="paymentTerms" defaultValue={formType === 'edit' ? this.props.invoice.paymentTerms : Object.keys(formData).length ? formData.paymentTerms : ''} type="number" min="0" max="365"></input>
                                 </div>
                             </div>
                             <label htmlFor="projectDescription">Project Description</label>

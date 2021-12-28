@@ -119,7 +119,7 @@ export default class InvoicePage extends Component {
         return InvoiceApiService.deactivateInvoice(lvid)
             .then(() => {
                 this.removeUrlParams();
-                const newInvoiceArray = this.state.invoice.filter(ele => ele.lvid != lvid);
+                const newInvoiceArray = this.state.invoice.filter(ele => ele.lvid !== lvid);
 
                 this.setState({ 
                     singleInvoice: {}, 
@@ -173,13 +173,11 @@ export default class InvoicePage extends Component {
     }
 
     checkIfFormValid = (dataObj) => {
-        console.log(dataObj)
+        console.log('check form', dataObj)
         const currFormValuesArr = Object.values(dataObj);
-        console.log(currFormValuesArr)
         // Check that there are no empty values in object or in item array, make sure item array has atleast one item
-        console.log(!currFormValuesArr.every(item => !item))
-        console.log(!dataObj.items.every(item => item) && !dataObj.items.length > 0)
-        if (!currFormValuesArr.every(item => item) || (!dataObj.items.every(item => Object.values(item).every(value => value)) && !dataObj.items.length > 0))
+        console.log((!currFormValuesArr.every(item => item) || (!dataObj.items.every(item => Object.values(item).every(value => value)) || dataObj.items.length === 0)))
+        if (!currFormValuesArr.every(item => item) || (!dataObj.items.every(item => Object.values(item).every(value => value)) || dataObj.items.length === 0))
             return this.setState({
                 formData: dataObj,
                 invalidForm: true
@@ -216,13 +214,13 @@ export default class InvoicePage extends Component {
         const formIsValid = saveType === 'save' || saveType === 'save-edit' ? this.checkIfFormValid(dataObj) : true;
         dataObj['saveType'] = saveType;
 
+        console.log(formIsValid)
         if (formIsValid && saveType !== 'save-edit')
             return InvoiceApiService.insertNewInvoice(dataObj).then((newInvoiceArr) => {
                 return this.saveInvoiceForm(newInvoiceArr);
             })
 
         if (formIsValid && saveType === 'save-edit') {
-            console.log(dataObj)
             dataObj['lsid'] = this.state.singleInvoice.lsid;
             dataObj['lcid'] = this.state.singleInvoice.lcid;
             dataObj['lvid'] = this.state.singleInvoice.lvid;
@@ -256,6 +254,7 @@ export default class InvoicePage extends Component {
                         onClickDeactivateInvoice={() => this.deactivateInvoice()}
                         goBack={() => this.goBack}
                         singleInvoiceObj={this.state.singleInvoice}
+                        invalidForm={this.state.invalidForm}
                         itemArr={this.state.itemArr}
                         handleAddItem={() => this.handleAddItem} /> 
                     : <AllInvoiceView 

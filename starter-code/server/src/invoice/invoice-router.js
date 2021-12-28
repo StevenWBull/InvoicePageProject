@@ -129,7 +129,6 @@ invoiceRouter
         
         for (let idx in items) {
             const { name, quantity, price } = items[idx];
-            console.log(typeof price)
             const itemObj = {
                 'refname': name,
                 'quantity': Number(quantity),
