@@ -74,6 +74,27 @@ const InvoiceApiService = {
             .catch(error => {
                 console.log(error)
             })        
+    },
+    updateInvoiceStatus(lvid, status) {
+        const payload = JSON.stringify({ lvid, status })
+        return fetch(
+            `${config.API_ENDPOINT}/invoice/updateInvoiceStatus`, 
+            { 
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: payload 
+            }
+        )
+            .then(res => 
+                (!res.ok)
+                    ? res.json().then(e => Promise.reject(e))
+                    : res.json()
+                )
+            .catch(error => {
+                console.log(error)
+            })        
     }
 }
 

@@ -215,4 +215,22 @@ invoiceRouter
             .catch(next);
     })
 
+invoiceRouter
+    .route('/updateInvoiceStatus')
+    .patch(jsonBodyParser, async(req, res, next) => {
+        const db = req.app.get('db');
+        const { lvid, status } = req.body;
+
+        const newStatus = status === 'pending' ? 'paid' : 'pending';
+
+        await InvoiceService.updateInvoiceStatus(db, lvid, newStatus);
+
+        InvoiceService.getAllInvoices(db)
+            .then(invoices => {
+                const invoiceArray = invoices.rows.map(invoice => invoice.json_build_object);
+                res.status(201).json(invoiceArray);
+            })
+            .catch(next);
+    })
+
 module.exports = invoiceRouter;

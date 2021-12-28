@@ -20,7 +20,7 @@ Your users should be able to:
   - Create corresponding API endpoints
   - No authentication/session management is required. Imagine you're building this application for a single user (yourself)
 - **Bonus**: Receive form validations when trying to create/edit an invoice
-- **Bonus**: Save draft invoices, and mark pending invoices as paid
+x **Bonus**: Save draft invoices, and mark pending invoices as paid
 x **Bonus**: Filter invoices by status (draft/pending/paid)
 - **Bonus**: Keep track of any changes, even after refreshing the browser (`localStorage` could be used for this)
 
@@ -34,7 +34,7 @@ x Creating an invoice
 - Editing an invoice
   x When saving changes to an invoice, all fields are required when the "Save Changes" button is clicked. If the user clicks "Cancel", any unsaved changes should be reset.
   x If the invoice being edited is a "draft", the status needs to be updated to "pending" when the "Save Changes" button is clicked. All fields are required at this stage.
-- Users should be able to mark invoices as paid by clicking the "Mark as Paid" button. This should change the invoice's status to "paid".
+x Users should be able to mark invoices as paid by clicking the "Mark as Paid" button. This should change the invoice's status to "paid".
 - Feel free not to add custom styling for the date and dropdown form fields. The designs for those fields are optional extras and are mostly for illustration purposes.
 
 ### Evaluation Criteria

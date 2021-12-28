@@ -164,6 +164,7 @@ export default class InvoicePage extends Component {
             invalidForm: false,
             invoice: newInvoiceArr,
             singleInvoice: singleEdit ? newInvoiceArr.find(obj => obj.lvid === this.state.singleInvoice.lvid) : {},
+            invoiceCount: newInvoiceArr.length
         });
     }
 
@@ -173,10 +174,8 @@ export default class InvoicePage extends Component {
     }
 
     checkIfFormValid = (dataObj) => {
-        console.log('check form', dataObj)
         const currFormValuesArr = Object.values(dataObj);
         // Check that there are no empty values in object or in item array, make sure item array has atleast one item
-        console.log((!currFormValuesArr.every(item => item) || (!dataObj.items.every(item => Object.values(item).every(value => value)) || dataObj.items.length === 0)))
         if (!currFormValuesArr.every(item => item) || (!dataObj.items.every(item => Object.values(item).every(value => value)) || dataObj.items.length === 0))
             return this.setState({
                 formData: dataObj,
@@ -214,7 +213,6 @@ export default class InvoicePage extends Component {
         const formIsValid = saveType === 'save' || saveType === 'save-edit' ? this.checkIfFormValid(dataObj) : true;
         dataObj['saveType'] = saveType;
 
-        console.log(formIsValid)
         if (formIsValid && saveType !== 'save-edit')
             return InvoiceApiService.insertNewInvoice(dataObj).then((newInvoiceArr) => {
                 return this.saveInvoiceForm(newInvoiceArr);
@@ -240,6 +238,18 @@ export default class InvoicePage extends Component {
         });
     }
 
+    updateInvoiceStatus = () => {
+        const { lvid, status } = this.state.singleInvoice;
+        InvoiceApiService.updateInvoiceStatus(lvid, status)
+            .then(newInvoiceArr => 
+                this.setState({
+                    invoice: newInvoiceArr,
+                    singleInvoice: newInvoiceArr.find(obj => obj.lvid === lvid),
+                    invoiceCount: newInvoiceArr.length
+                })
+            )
+    }
+
     render() {
         return (
             <>
@@ -256,7 +266,8 @@ export default class InvoicePage extends Component {
                         singleInvoiceObj={this.state.singleInvoice}
                         invalidForm={this.state.invalidForm}
                         itemArr={this.state.itemArr}
-                        handleAddItem={() => this.handleAddItem} /> 
+                        handleAddItem={() => this.handleAddItem}
+                        updateInvoiceStatus={() => this.updateInvoiceStatus} /> 
                     : <AllInvoiceView 
                         key={1}
                         onFilterSelect={() => this.onFilterSelect}

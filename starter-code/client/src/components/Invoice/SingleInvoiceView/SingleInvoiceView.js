@@ -23,7 +23,7 @@ export default class SingleInvoiceView extends Component {
 
     renderItems = (items) => {
         const loadItems = items.map((item, idx) => (
-                <div className="item-cont">
+                <div className="item-cont" key={idx}>
                     <h3 className="name">{item.name}</h3>
                     <h3 className="quantity">{item.quantity}</h3>
                     <h3 className="price">$ {item.price ? item.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') : '0.00'}</h3>
@@ -34,7 +34,7 @@ export default class SingleInvoiceView extends Component {
     }
 
     render() {
-        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, onClickDeactivateInvoice, goBack, singleInvoiceObj, itemArr, handleAddItem, invalidForm } = this.props;
+        const { showEditInvoiceForm, onClickEditInvoiceForm, onCLickDiscardInvoiceForm, onSaveFormSubmit, onClickDeactivateInvoice, goBack, singleInvoiceObj, itemArr, handleAddItem, invalidForm, updateInvoiceStatus } = this.props;
         const { status, id, items, paymentDue, createdAt, description, clientName, clientEmail, senderAddress, clientAddress, total } = singleInvoiceObj;
         
         return (
@@ -57,7 +57,7 @@ export default class SingleInvoiceView extends Component {
                         <div className="box2-right-side" style={status === 'draft' ? {'width': '24%'} : {}}>
                             <button className='btn btn-edit single-invoice-btn' onClick={onClickEditInvoiceForm()}><h4>Edit</h4></button>
                             <button className='btn btn-discard single-invoice-btn' onClick={this.onClickDelete}><h4>Delete</h4></button>
-                            {status !== 'draft' && <button className='btn btn-primary single-invoice-btn'><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>}
+                            {status !== 'draft' && <button className='btn btn-primary single-invoice-btn' onClick={updateInvoiceStatus()}><h4>Mark as {status === 'paid' ? 'Unpaid' : 'Paid'}</h4></button>}
                         </div>
                     </div>
                     <div className="box3">

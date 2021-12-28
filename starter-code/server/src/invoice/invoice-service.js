@@ -150,6 +150,12 @@ const InvoiceService = {
             .from('leitem')
             .where({ 'leitemid': liid })
             .update(itemObj)
+    },
+    updateInvoiceStatus(db, lvid, status) {
+        return db
+            .from('leinvoice')
+            .where({ 'leinvoiceid': lvid })
+            .update({ 'status': status })
     }
 }
 
